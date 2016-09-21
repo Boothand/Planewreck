@@ -23,14 +23,12 @@ public class RopeManager : MonoBehaviour
 	
 	void Update ()
 	{
-		//lineRend.SetWidth(ropeWidth, ropeWidth);
 		lineRend.SetPosition(0, transform.position);
 		lineRend.SetPosition(1, target.position);
 
 		float distance = Vector3.Distance(transform.position, target.position);
-		float tiss = (9 - distance) / 10f;
-		tiss = Mathf.Clamp(tiss, 0.2f, 0.2f + distance);
-		print(tiss);
-		lineRend.SetWidth(tiss, tiss);
+		float width = (9 - distance) / 10f;
+		width = Mathf.Clamp(width, ropeWidth, ropeWidth + distance);
+		lineRend.SetWidth(width, width);
 	}
 }
