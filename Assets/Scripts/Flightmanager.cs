@@ -18,12 +18,6 @@ public class Flightmanager : MonoBehaviour
 
 	private float speedModifier = 700f;
 
-	private float tilt;
-	private float tiltSpeed = 120f;
-
-	private enum Orientation { Right, Left }
-	private Orientation orientation = Orientation.Right;
-
 	private float pitchSpeed = 5f;
 	private float rollSpeed = 2.5f;
 
@@ -55,7 +49,6 @@ public class Flightmanager : MonoBehaviour
 		velocity += Time.deltaTime * 5f;
 
 
-		print(angle);
 		//Facing up
 		if (transform.position.y + transform.forward.y > transform.position.y)
 		{
@@ -68,7 +61,7 @@ public class Flightmanager : MonoBehaviour
 
 		velocity = Mathf.Clamp(velocity, minSpeed, maxSpeed);
 
-		Vector3 newDir = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0f);
+		Vector3 newDir = new Vector3(input.Horizontal, input.Vertical, 0f);
 
 		transform.forward = Vector3.Lerp(transform.forward, newDir, Time.deltaTime * pitchSpeed);
 

@@ -2,10 +2,10 @@
 
 public class PlayerController : InputManager
 {
-	private string accelString = "Accelerate";
-	private string decelString = "Decelerate";
-
-	private string tiltString = "Tilt";
+	[SerializeField]
+	private string horzString = "Horizontal";
+	[SerializeField]
+	private string vertString = "Vertical";
 
 	void Start ()
 	{
@@ -14,8 +14,7 @@ public class PlayerController : InputManager
 	
 	void Update ()
 	{
-		accelerate = Input.GetAxisRaw(accelString);
-		decelerate = Input.GetAxisRaw(decelString);
-		tilt = Input.GetAxisRaw(tiltString);
+		horizontal = Input.GetAxisRaw(horzString);
+		vertical = Input.GetAxisRaw(vertString);
 	}
 }
