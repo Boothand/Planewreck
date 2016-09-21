@@ -16,9 +16,6 @@ public class Flightmanager : MonoBehaviour
 	private float accelerationSpeed = 1f;
 	private float decelerationSpeed = 1f;
 
-	private float minSpeed = 0.5f;
-	private float maxSpeed = 2f;
-
 	private float speedModifier = 700f;
 
 	private float tilt;
@@ -33,26 +30,32 @@ public class Flightmanager : MonoBehaviour
 	[SerializeField]
 	private Transform plane;
 
+	[SerializeField]
+	private float maxSpeed = 50f;
+	[SerializeField]
+	private float minSpeed = 20f;
+
 	void Start ()
 	{
 		rb = GetComponent<Rigidbody>();
 		input = GetComponent<InputManager>();
 	}
 
-	void ControlMotor()
-	{
-		motor += input.Accelerate * accelerationSpeed * Time.deltaTime;
-		motor -= input.Decelerate * decelerationSpeed * Time.deltaTime;
-
-		motor = Mathf.Clamp(motor, minSpeed, maxSpeed);
-	}
 	
 	void Update ()
 	{
 		//ControlMotor();
 
 		float angle = Vector3.Angle(Vector3.right, transform.forward);
+		if (rb.velocity.x < 0)
+		{
+			angle = Vector3.Angle(Vector3.left, transform.forward);
+		}
 
+		velocity += Time.deltaTime * 5f;
+
+
+		print(angle);
 		//Facing up
 		if (transform.position.y + transform.forward.y > transform.position.y)
 		{
@@ -63,7 +66,7 @@ public class Flightmanager : MonoBehaviour
 			velocity *= 1 + (angle / 90f) * Time.deltaTime;
 		}
 
-		velocity = Mathf.Clamp(velocity, 10f, 50f);
+		velocity = Mathf.Clamp(velocity, minSpeed, maxSpeed);
 
 		Vector3 newDir = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0f);
 
@@ -71,7 +74,7 @@ public class Flightmanager : MonoBehaviour
 
 		Vector3 planeRot = plane.eulerAngles;
 		planeRot.x = transform.eulerAngles.x;
-		planeRot.y = Mathf.Lerp(planeRot.y, transform.eulerAngles.y, Time.deltaTime * rollSpeed);
+		planeRot.y = Mathf.LerpAngle(planeRot.y, transform.eulerAngles.y, Time.deltaTime * (velocity * 0.25f));
 		plane.eulerAngles = planeRot;
 
 		plane.position = transform.position;
