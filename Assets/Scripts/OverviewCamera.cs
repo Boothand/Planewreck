@@ -3,61 +3,98 @@ using System.Collections;
 
 public class OverviewCamera : MonoBehaviour
 {
-	[SerializeField]
-	private Transform[] targets = new Transform[2];
-
+	private CameraTarget[] cameraTargets;
 	private Camera cam;
+
+	[SerializeField]
+	private float lerpSpeed = 4f;
+
+	[SerializeField]
+	private float minDistance = -100f;
+
+	[SerializeField]
+	private float maxDistance = -30f;
+
+	private int trackableObjectCount;
+
+	private Vector3 startPos;
 
 	void Start ()
 	{
 		cam = GetComponent<Camera>();
-	}
 
-	IEnumerator MoveCamToTarget(float distanceFromCenter)
-	{
-		Vector3 oldPos = transform.position;
-		Vector3 newPos = transform.position;
-		
-		while (true)
-		{
-			Vector3 pos = transform.position;
-			pos += cam.ViewportToWorldPoint((Vector3.right * distanceFromCenter));
-			transform.position = pos;
+		cameraTargets = GameObject.FindObjectsOfType<CameraTarget>();
 
-			newPos = pos;
-			newPos.z = oldPos.z;
-			newPos.y = oldPos.y;
-
-			break;
-		}
-
-		transform.position = oldPos;
-
-		while (true)
-		{
-			transform.position = Vector3.Lerp(transform.position, newPos, Time.deltaTime * 2f);
-			yield return new WaitForEndOfFrame();
-		}
+		startPos = transform.position;
 	}
 	
-	void Update ()
+	void FixedUpdate ()
 	{
-		Vector3 camCenter = cam.ScreenToWorldPoint(new Vector2(0.5f, 0.5f));
-		camCenter.z = 0;
-		float safePadding = 0.3f;
+		Vector2 lowerLeft = Vector2.zero;
+		Vector2 upperRight = Vector2.zero;
 
-		
-		foreach (Transform target in targets)
+		bool isSet = false;
+		trackableObjectCount = 0;
+
+		foreach (CameraTarget target in cameraTargets)
 		{
-			Vector2 screenPos = cam.WorldToViewportPoint(target.position);
-			float distanceFromCenter = screenPos.x - 0.5f;
-
-			if (Mathf.Abs(distanceFromCenter) > safePadding)
+			if (!target.Trackable)
 			{
-				StopAllCoroutines();
-				//StartCoroutine(MoveCamToTarget(distanceFromCenter));
-				break;
+				continue;
+			}
+			else
+			{
+				trackableObjectCount++;
+			}
+
+			if (!isSet)
+			{
+				lowerLeft = target.transform.position;
+				upperRight = target.transform.position;
+
+				isSet = true;
+			}
+			else
+			{
+				if (target.transform.position.y < lowerLeft.y)
+				{
+					lowerLeft.y = target.transform.position.y;
+				}
+
+				if (target.transform.position.x < lowerLeft.x)
+				{
+					lowerLeft.x = target.transform.position.x;
+				}
+
+				if (target.transform.position.y > upperRight.y)
+				{
+					upperRight.y = target.transform.position.y;
+				}
+
+				if (target.transform.position.x > upperRight.x)
+				{
+					upperRight.x = target.transform.position.x;
+				}
 			}
 		}
+
+		Vector3 camPos = (upperRight + lowerLeft) / 2;
+
+		
+		float zDistance = Vector2.Distance(upperRight, lowerLeft);
+		camPos.z = -zDistance;
+		camPos.z = Mathf.Clamp(camPos.z, minDistance, maxDistance);	
+
+		transform.position = Vector3.Lerp(transform.position, camPos, Time.deltaTime * lerpSpeed);
+		
+		if (trackableObjectCount == 0)
+		{
+			transform.position = startPos;
+		}
+
+		Debug.DrawLine(Vector3.zero, new Vector3(camPos.x, camPos.y, 0f), Color.red);
+
+		Debug.DrawLine(lowerLeft, upperRight);
+		Debug.DrawLine(new Vector3(lowerLeft.x, upperRight.y), new Vector3(upperRight.x, lowerLeft.y));
 	}
 }
