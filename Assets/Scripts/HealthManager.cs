@@ -2,20 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthManager : MonoBehaviour {
-	[SerializeField]
+public class HealthManager : MonoBehaviour
+{
 	private GameObject mesh;
+
+	private PlayerProperties properties;
 
 	private int meshCount;
 
 	Transform[] childs;
 	private bool dead = false;
 
-	public bool Dead { get { return dead; } }
+	public bool Dead { get { return dead; } set { dead = value; } }
 
 	void Start()
 	{
+		properties = GetComponent<PlayerProperties>();
+
+		mesh = properties.MeshInstance.gameObject;
+
 		meshCount = mesh.transform.childCount;
+
+
 		childs = new Transform[meshCount];
 
 		int ii = 0;

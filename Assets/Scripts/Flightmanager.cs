@@ -2,17 +2,18 @@
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(InputManager))]
+[RequireComponent(typeof(PlayerProperties))]
 public class Flightmanager : MonoBehaviour
 {
 	private	Rigidbody rb;
 	private InputManager input;
+	private PlayerProperties properties;
 	
 	private float velocity;
 
 	private float pitchSpeed = 5f;
 	private float rollSpeed = 0.45f;
-
-	[SerializeField]
+	
 	private Transform plane;
 
 	[SerializeField]
@@ -33,10 +34,13 @@ public class Flightmanager : MonoBehaviour
 
 	void Start ()
 	{
-		startDirection = transform.forward;
+		properties = GetComponent<PlayerProperties>();
 
+		plane = properties.MeshInstance;
 		rb = GetComponent<Rigidbody>();
 		input = GetComponent<InputManager>();
+
+		startDirection = transform.forward;
 		
 		velocity = minSpeed;
 	}
@@ -67,6 +71,7 @@ public class Flightmanager : MonoBehaviour
 	void UpdateMesh()
 	{
 		//Make the plane mesh copy the x and y rotation of this object
+
 		Vector3 planeRot = plane.eulerAngles;
 		planeRot.x = transform.eulerAngles.x;
 		planeRot.y = Mathf.LerpAngle(planeRot.y, transform.eulerAngles.y, Time.deltaTime * rollSpeed * (velocity * 0.25f));
@@ -92,6 +97,10 @@ public class Flightmanager : MonoBehaviour
 		if (plane)
 		{
 			UpdateMesh();
+		}
+		else
+		{
+			plane = properties.MeshInstance;
 		}
 		
 		rb.velocity = transform.forward * velocity;
