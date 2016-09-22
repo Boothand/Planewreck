@@ -24,12 +24,16 @@ public class Flightmanager : MonoBehaviour
 
 	public Vector3 Velocity { get { return transform.forward * velocity; } }
 
+	private Vector3 startDirection;
+
 	void Start ()
 	{
+		startDirection = transform.forward;
+
 		rb = GetComponent<Rigidbody>();
 		input = GetComponent<InputManager>();
-
-		movementDir = Vector3.right;
+		
+		velocity = minSpeed;
 	}
 
 	void FightGravity()
@@ -75,17 +79,20 @@ public class Flightmanager : MonoBehaviour
 		//Face towards the input direction
 		movementDir = new Vector3(input.Horizontal, input.Vertical);
 		transform.forward = Vector3.Lerp(transform.forward, movementDir, Time.deltaTime * pitchSpeed);
+		if (transform.forward == Vector3.forward)
+			transform.forward = startDirection;
 
 		if (plane)
 		{
 			UpdateMesh();
 		}
-
+		
 		rb.velocity = transform.forward * velocity;
 
 		//Force z position to 0
 		Vector3 pos = transform.position;
 		pos.z = 0f;
 		transform.position = pos;
+
 	}
 }
