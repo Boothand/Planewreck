@@ -23,5 +23,7 @@ public class WreckingBallRope : RopeManager
 			print("OK");
 			ropeObjectVelocity *= 0.25f;
 		}
+
+		smasher.Velocity = ropeObjectVelocity;
 	}
 }
