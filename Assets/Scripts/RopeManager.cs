@@ -8,6 +8,7 @@ public class RopeManager : MonoBehaviour
 
 	[SerializeField]
 	protected Transform ropeObject;
+	protected bool isConnected = true;
 
 	protected Vector3 ropeObjectVelocity;
 
@@ -38,29 +39,40 @@ public class RopeManager : MonoBehaviour
 		lineRend.startWidth = width;
 		lineRend.endWidth = width;
 	}
+
+	public void Break()
+	{
+		isConnected = false;
+		lineRend.numPositions = 0;
+	}
 	
 	protected void Update ()
 	{
-		lineRend.SetPosition(0, transform.position);
-		lineRend.SetPosition(1, ropeObject.position);
-
-		distanceToTarget = Vector3.Distance(transform.position, ropeObject.position);
-
-		SetRopeWidth();
-
-		float someForce = 0.008f;
-
-		Vector3 dirToTarget = (transform.position - ropeObject.position).normalized;
-
-		if (distanceToTarget > ropeLength)
+		if (isConnected)
 		{
-			ropeObjectVelocity += dirToTarget * distanceToTarget * someForce;
+			lineRend.SetPosition(0, transform.position);
+
+			lineRend.SetPosition(1, ropeObject.position);
+
+			distanceToTarget = Vector3.Distance(transform.position, ropeObject.position);
+
+			SetRopeWidth();
+
+			float someForce = 0.008f;
+
+			Vector3 dirToTarget = (transform.position - ropeObject.position).normalized;
+
+			if (distanceToTarget > ropeLength)
+			{
+				ropeObjectVelocity += dirToTarget * (distanceToTarget-ropeLength) * someForce;
+			}
 		}
+		
+			ropeObjectVelocity = Vector3.ClampMagnitude(ropeObjectVelocity, elasticity);
+			ropeObjectVelocity.y -= 0.981f * Time.deltaTime;
 
-		ropeObjectVelocity.y -= 0.981f * Time.deltaTime;
+			ropeObject.position += ropeObjectVelocity;
 
-		ropeObjectVelocity = Vector3.ClampMagnitude(ropeObjectVelocity, elasticity);
-
-		ropeObject.position += ropeObjectVelocity;
+		
 	}
 }

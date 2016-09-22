@@ -10,9 +10,9 @@ public class RopeVictim : MonoBehaviour
 	[SerializeField]
 	private float collisionThreshold = 3f;
 
-	void Start ()
+	void Update()
 	{
-		
+		colliding = false;
 	}
 
 	void OnCollisionEnter(Collision col)
