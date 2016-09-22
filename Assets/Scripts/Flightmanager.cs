@@ -16,6 +16,11 @@ public class Flightmanager : MonoBehaviour
 	private Transform plane;
 
 	[SerializeField]
+	private Transform propeller;
+	[SerializeField]
+	private float propellerSpeed = 100f;
+
+	[SerializeField]
 	private float maxSpeed = 50f;
 	[SerializeField]
 	private float minSpeed = 20f;
@@ -68,6 +73,8 @@ public class Flightmanager : MonoBehaviour
 		plane.eulerAngles = planeRot;
 
 		plane.position = transform.position;
+
+		propeller.transform.Rotate(propeller.transform.up, Time.deltaTime * velocity * propellerSpeed, Space.World);
 	}
 	
 	void Update ()
