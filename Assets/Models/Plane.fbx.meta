@@ -24,6 +24,70 @@ ModelImporter:
     100032: WingLower
     100034: WingLower.001
     100036: WingUpper
+    100038: Body_cell
+    100040: Body_cell.001
+    100042: Body_cell.002
+    100044: Body_cell.003
+    100046: Body_cell.004
+    100048: Body_cell.005
+    100050: Body_cell.006
+    100052: Body_cell.007
+    100054: Body_cell.008
+    100056: Body_cell.009
+    100058: Body_cell.010
+    100060: Body_cell.011
+    100062: Body_cell.012
+    100064: Body_cell.013
+    100066: Body_cell.014
+    100068: Body_cell.015
+    100070: Body_cell.016
+    100072: Body_cell.017
+    100074: Body_cell.018
+    100076: Body_cell.019
+    100078: Body_cell.020
+    100080: Body_cell.021
+    100082: Body_cell.022
+    100084: Body_cell.023
+    100086: Body_cell.024
+    100088: Body_cell.025
+    100090: Body_cell.026
+    100092: Body_cell.027
+    100094: Body_cell.028
+    100096: Body_cell.029
+    100098: Body_cell.030
+    100100: Body_cell.031
+    100102: Body_cell.032
+    100104: Body_cell.033
+    100106: Body_cell.034
+    100108: Body_cell.035
+    100110: Body_cell.036
+    100112: Body_cell.037
+    100114: Body_cell.038
+    100116: Body_cell.039
+    100118: Body_cell.040
+    100120: Body_cell.041
+    100122: Body_cell.042
+    100124: Body_cell.043
+    100126: Body_cell.044
+    100128: Body_cell.045
+    100130: Body_cell.046
+    100132: Body_cell.047
+    100134: Body_cell.048
+    100136: Body_cell.049
+    100138: Body_cell.050
+    100140: Body_cell.051
+    100142: Body_cell.052
+    100144: Body_cell.053
+    100146: Body_cell.054
+    100148: Body_cell.055
+    100150: Body_cell.056
+    100152: Body_cell.057
+    100154: Body_cell.058
+    100156: Body_cell.059
+    100158: Body_cell.060
+    100160: Body_cell.061
+    100162: Body_cell.062
+    100164: Body_cell.063
     400000: Body
     400002: Body.001
     400004: Cube
@@ -43,6 +107,70 @@ ModelImporter:
     400032: WingLower
     400034: WingLower.001
     400036: WingUpper
+    400038: Body_cell
+    400040: Body_cell.001
+    400042: Body_cell.002
+    400044: Body_cell.003
+    400046: Body_cell.004
+    400048: Body_cell.005
+    400050: Body_cell.006
+    400052: Body_cell.007
+    400054: Body_cell.008
+    400056: Body_cell.009
+    400058: Body_cell.010
+    400060: Body_cell.011
+    400062: Body_cell.012
+    400064: Body_cell.013
+    400066: Body_cell.014
+    400068: Body_cell.015
+    400070: Body_cell.016
+    400072: Body_cell.017
+    400074: Body_cell.018
+    400076: Body_cell.019
+    400078: Body_cell.020
+    400080: Body_cell.021
+    400082: Body_cell.022
+    400084: Body_cell.023
+    400086: Body_cell.024
+    400088: Body_cell.025
+    400090: Body_cell.026
+    400092: Body_cell.027
+    400094: Body_cell.028
+    400096: Body_cell.029
+    400098: Body_cell.030
+    400100: Body_cell.031
+    400102: Body_cell.032
+    400104: Body_cell.033
+    400106: Body_cell.034
+    400108: Body_cell.035
+    400110: Body_cell.036
+    400112: Body_cell.037
+    400114: Body_cell.038
+    400116: Body_cell.039
+    400118: Body_cell.040
+    400120: Body_cell.041
+    400122: Body_cell.042
+    400124: Body_cell.043
+    400126: Body_cell.044
+    400128: Body_cell.045
+    400130: Body_cell.046
+    400132: Body_cell.047
+    400134: Body_cell.048
+    400136: Body_cell.049
+    400138: Body_cell.050
+    400140: Body_cell.051
+    400142: Body_cell.052
+    400144: Body_cell.053
+    400146: Body_cell.054
+    400148: Body_cell.055
+    400150: Body_cell.056
+    400152: Body_cell.057
+    400154: Body_cell.058
+    400156: Body_cell.059
+    400158: Body_cell.060
+    400160: Body_cell.061
+    400162: Body_cell.062
+    400164: Body_cell.063
     2300000: Body
     2300002: Body.001
     2300004: Cube
@@ -61,6 +189,70 @@ ModelImporter:
     2300030: WingLower
     2300032: WingLower.001
     2300034: WingUpper
+    2300036: Body_cell
+    2300038: Body_cell.001
+    2300040: Body_cell.002
+    2300042: Body_cell.003
+    2300044: Body_cell.004
+    2300046: Body_cell.005
+    2300048: Body_cell.006
+    2300050: Body_cell.007
+    2300052: Body_cell.008
+    2300054: Body_cell.009
+    2300056: Body_cell.010
+    2300058: Body_cell.011
+    2300060: Body_cell.012
+    2300062: Body_cell.013
+    2300064: Body_cell.014
+    2300066: Body_cell.015
+    2300068: Body_cell.016
+    2300070: Body_cell.017
+    2300072: Body_cell.018
+    2300074: Body_cell.019
+    2300076: Body_cell.020
+    2300078: Body_cell.021
+    2300080: Body_cell.022
+    2300082: Body_cell.023
+    2300084: Body_cell.024
+    2300086: Body_cell.025
+    2300088: Body_cell.026
+    2300090: Body_cell.027
+    2300092: Body_cell.028
+    2300094: Body_cell.029
+    2300096: Body_cell.030
+    2300098: Body_cell.031
+    2300100: Body_cell.032
+    2300102: Body_cell.033
+    2300104: Body_cell.034
+    2300106: Body_cell.035
+    2300108: Body_cell.036
+    2300110: Body_cell.037
+    2300112: Body_cell.038
+    2300114: Body_cell.039
+    2300116: Body_cell.040
+    2300118: Body_cell.041
+    2300120: Body_cell.042
+    2300122: Body_cell.043
+    2300124: Body_cell.044
+    2300126: Body_cell.045
+    2300128: Body_cell.046
+    2300130: Body_cell.047
+    2300132: Body_cell.048
+    2300134: Body_cell.049
+    2300136: Body_cell.050
+    2300138: Body_cell.051
+    2300140: Body_cell.052
+    2300142: Body_cell.053
+    2300144: Body_cell.054
+    2300146: Body_cell.055
+    2300148: Body_cell.056
+    2300150: Body_cell.057
+    2300152: Body_cell.058
+    2300154: Body_cell.059
+    2300156: Body_cell.060
+    2300158: Body_cell.061
+    2300160: Body_cell.062
+    2300162: Body_cell.063
     3300000: Body
     3300002: Body.001
     3300004: Cube
@@ -79,6 +271,70 @@ ModelImporter:
     3300030: WingLower
     3300032: WingLower.001
     3300034: WingUpper
+    3300036: Body_cell
+    3300038: Body_cell.001
+    3300040: Body_cell.002
+    3300042: Body_cell.003
+    3300044: Body_cell.004
+    3300046: Body_cell.005
+    3300048: Body_cell.006
+    3300050: Body_cell.007
+    3300052: Body_cell.008
+    3300054: Body_cell.009
+    3300056: Body_cell.010
+    3300058: Body_cell.011
+    3300060: Body_cell.012
+    3300062: Body_cell.013
+    3300064: Body_cell.014
+    3300066: Body_cell.015
+    3300068: Body_cell.016
+    3300070: Body_cell.017
+    3300072: Body_cell.018
+    3300074: Body_cell.019
+    3300076: Body_cell.020
+    3300078: Body_cell.021
+    3300080: Body_cell.022
+    3300082: Body_cell.023
+    3300084: Body_cell.024
+    3300086: Body_cell.025
+    3300088: Body_cell.026
+    3300090: Body_cell.027
+    3300092: Body_cell.028
+    3300094: Body_cell.029
+    3300096: Body_cell.030
+    3300098: Body_cell.031
+    3300100: Body_cell.032
+    3300102: Body_cell.033
+    3300104: Body_cell.034
+    3300106: Body_cell.035
+    3300108: Body_cell.036
+    3300110: Body_cell.037
+    3300112: Body_cell.038
+    3300114: Body_cell.039
+    3300116: Body_cell.040
+    3300118: Body_cell.041
+    3300120: Body_cell.042
+    3300122: Body_cell.043
+    3300124: Body_cell.044
+    3300126: Body_cell.045
+    3300128: Body_cell.046
+    3300130: Body_cell.047
+    3300132: Body_cell.048
+    3300134: Body_cell.049
+    3300136: Body_cell.050
+    3300138: Body_cell.051
+    3300140: Body_cell.052
+    3300142: Body_cell.053
+    3300144: Body_cell.054
+    3300146: Body_cell.055
+    3300148: Body_cell.056
+    3300150: Body_cell.057
+    3300152: Body_cell.058
+    3300154: Body_cell.059
+    3300156: Body_cell.060
+    3300158: Body_cell.061
+    3300160: Body_cell.062
+    3300162: Body_cell.063
     4300000: Cylinder.002
     4300002: Cube.008
     4300004: WingLower.001
@@ -97,6 +353,70 @@ ModelImporter:
     4300030: WingUpper
     4300032: Propeller
     4300034: Body
+    4300036: Body_cell.063
+    4300038: Body_cell.062
+    4300040: Body_cell.061
+    4300042: Body_cell.060
+    4300044: Body_cell.059
+    4300046: Body_cell.058
+    4300048: Body_cell.057
+    4300050: Body_cell.056
+    4300052: Body_cell.055
+    4300054: Body_cell.054
+    4300056: Body_cell.053
+    4300058: Body_cell.052
+    4300060: Body_cell.051
+    4300062: Body_cell.050
+    4300064: Body_cell.049
+    4300066: Body_cell.048
+    4300068: Body_cell.047
+    4300070: Body_cell.046
+    4300072: Body_cell.045
+    4300074: Body_cell.044
+    4300076: Body_cell.043
+    4300078: Body_cell.042
+    4300080: Body_cell.041
+    4300082: Body_cell.040
+    4300084: Body_cell.039
+    4300086: Body_cell.038
+    4300088: Body_cell.037
+    4300090: Body_cell.036
+    4300092: Body_cell.035
+    4300094: Body_cell.034
+    4300096: Body_cell.033
+    4300098: Body_cell.032
+    4300100: Body_cell.031
+    4300102: Body_cell.030
+    4300104: Body_cell.029
+    4300106: Body_cell.028
+    4300108: Body_cell.027
+    4300110: Body_cell.026
+    4300112: Body_cell.025
+    4300114: Body_cell.024
+    4300116: Body_cell.023
+    4300118: Body_cell.022
+    4300120: Body_cell.021
+    4300122: Body_cell.020
+    4300124: Body_cell.019
+    4300126: Body_cell.018
+    4300128: Body_cell.017
+    4300130: Body_cell.016
+    4300132: Body_cell.015
+    4300134: Body_cell.014
+    4300136: Body_cell.013
+    4300138: Body_cell.012
+    4300140: Body_cell.011
+    4300142: Body_cell.010
+    4300144: Body_cell.009
+    4300146: Body_cell.008
+    4300148: Body_cell.007
+    4300150: Body_cell.006
+    4300152: Body_cell.005
+    4300154: Body_cell.004
+    4300156: Body_cell.003
+    4300158: Body_cell.002
+    4300160: Body_cell.001
+    4300162: Body_cell
   materials:
     importMaterials: 1
     materialName: 0
@@ -143,6 +463,7 @@ ModelImporter:
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
+    serializedVersion: 2
     human: []
     skeleton: []
     armTwist: 0.5
@@ -153,7 +474,10 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 0
   humanoidOversampling: 1
