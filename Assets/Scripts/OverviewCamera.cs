@@ -10,14 +10,17 @@ public class OverviewCamera : MonoBehaviour
 	private float lerpSpeed = 4f;
 
 	[SerializeField]
-	private float minDistance = -100f;
+	private float maxDistance = -100f;
 
 	[SerializeField]
-	private float maxDistance = -30f;
+	private float minDistance = -30f;
 
 	private int trackableObjectCount;
-
 	private Vector3 startPos;
+
+	private bool trackObjects;
+
+	public Vector3 StartPosition { get { return startPos; } }
 
 	void Start ()
 	{
@@ -27,8 +30,36 @@ public class OverviewCamera : MonoBehaviour
 
 		startPos = transform.position;
 	}
-	
-	void FixedUpdate ()
+
+	IEnumerator ZoomOnTargetRoutine(Vector3 targetPos, float zoomTime, float distance)
+	{
+		trackObjects = false;
+		Vector3 startPos = transform.position;
+		float timer = 0f;
+
+		while (timer < zoomTime)
+		{
+			timer += Time.deltaTime;
+
+			transform.position = Vector3.Lerp(startPos, targetPos - (Vector3.forward * distance), timer);
+
+			yield return new WaitForEndOfFrame();
+		}
+
+		trackObjects = true;
+	}
+
+	public void ZoomOnTarget(Transform target, float zoomTime, float distance)
+	{
+		StartCoroutine(ZoomOnTargetRoutine(target.position, zoomTime, distance));
+	}
+
+	public void SetCameraTargetPosition(Vector3 targetPos, float travelTime)
+	{
+		StartCoroutine(ZoomOnTargetRoutine(targetPos, travelTime, 0f));
+	}
+
+	void TrackSceneObjects()
 	{
 		Vector2 lowerLeft = Vector2.zero;
 		Vector2 upperRight = Vector2.zero;
@@ -80,21 +111,32 @@ public class OverviewCamera : MonoBehaviour
 
 		Vector3 camPos = (upperRight + lowerLeft) / 2;
 
-		
 		float zDistance = Vector2.Distance(upperRight, lowerLeft);
 		camPos.z = -zDistance;
-		camPos.z = Mathf.Clamp(camPos.z, minDistance, maxDistance);	
+		camPos.z = Mathf.Clamp(camPos.z, maxDistance, minDistance);
 
 		transform.position = Vector3.Lerp(transform.position, camPos, Time.deltaTime * lerpSpeed);
-		
-		if (trackableObjectCount == 0)
-		{
-			transform.position = startPos;
-		}
 
+#if false
 		Debug.DrawLine(Vector3.zero, new Vector3(camPos.x, camPos.y, 0f), Color.red);
 
 		Debug.DrawLine(lowerLeft, upperRight);
 		Debug.DrawLine(new Vector3(lowerLeft.x, upperRight.y), new Vector3(upperRight.x, lowerLeft.y));
+#endif
+	}
+	
+	void FixedUpdate ()
+	{
+		if (trackObjects)
+		{
+			TrackSceneObjects();
+		}
+
+		//if (trackableObjectCount == 0)
+		//{
+		//	Vector3 endPos = startPos;
+		//	endPos.z = maxDistance;
+		//	transform.position = endPos;
+		//}		
 	}
 }
