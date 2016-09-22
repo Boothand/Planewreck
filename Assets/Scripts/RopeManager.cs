@@ -29,21 +29,25 @@ public class RopeManager : MonoBehaviour
 	protected void Start ()
 	{
 		lineRend = GetComponent<LineRenderer>();
-		lineRend.numPositions = ropeSegments;
+		lineRend.SetVertexCount(ropeSegments);
 	}
 
 	void SetRopeWidth()
 	{
 		float width = (9 - distanceToTarget) / 10f;
 		width = Mathf.Clamp(width, ropeWidth, ropeWidth + distanceToTarget);
-		lineRend.startWidth = width;
-		lineRend.endWidth = width;
+		lineRend.SetWidth(width, width);
 	}
 
 	public void Break()
 	{
 		isConnected = false;
-		lineRend.numPositions = 0;
+		lineRend.SetVertexCount(0);
+
+		if (ropeObject.GetComponent<CameraTarget>())
+		{
+			ropeObject.GetComponent<CameraTarget>().Trackable = false;
+		}
 	}
 	
 	protected void Update ()
