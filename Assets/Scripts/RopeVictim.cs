@@ -10,9 +10,16 @@ public class RopeVictim : MonoBehaviour
 
 	private Vector3 velocity;
 
+	public Vector3 Velocity { get { return velocity; } }
+
 	void Start ()
 	{
 		
+	}
+
+	void OnCollisionEnter(Collision col)
+	{		
+		velocity.x = -velocity.x;
 	}
 	
 	void FixedUpdate ()
@@ -20,12 +27,14 @@ public class RopeVictim : MonoBehaviour
 		float someForce = 0.1f;
 
 		Vector3 dirToMaster = (ropeMaster.transform.position - transform.position).normalized;
+
+		
+
 		float distanceToMaster = Vector3.Distance(ropeMaster.transform.position, transform.position);
 
 		if (distanceToMaster > maxDistance)
 		{
 			velocity += dirToMaster * someForce;
-
 		}
 
 		velocity.y -= 0.981f * Time.deltaTime;
