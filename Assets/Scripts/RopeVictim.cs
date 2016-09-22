@@ -22,4 +22,9 @@ public class RopeVictim : MonoBehaviour
 			colliding = true;
 		}
 	}
+
+	void OnCollisionExit(Collision col)
+	{
+		colliding = false;
+	}
 }
