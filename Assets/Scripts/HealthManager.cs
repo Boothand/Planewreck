@@ -11,10 +11,11 @@ public class HealthManager : MonoBehaviour {
 	Transform[] childs;
 	private bool dead = false;
 
+	public bool Dead { get { return dead; } }
+
 	void Start()
 	{
 		meshCount = mesh.transform.childCount;
-		print("Start" + meshCount);
 		childs = new Transform[meshCount];
 
 		int ii = 0;
@@ -27,38 +28,47 @@ public class HealthManager : MonoBehaviour {
 
 	void Die(Vector3 velocity)
 	{
-		if (!dead)
+		dead = true;
+
+		if (GetComponent<CameraTarget>())
 		{
-			dead = true;
+			GetComponent<CameraTarget>().Trackable = false;
+		}
 
-			print(velocity);
-			print("DIES");
-			GetComponent<Collider>().enabled = false;
+		GetComponent<Collider>().enabled = false;
 
-			Vector3 combinedVelocity = Vector3.Normalize(GetComponent<Flightmanager>().Velocity + velocity);
+		Vector3 combinedVelocity = Vector3.Normalize(GetComponent<Flightmanager>().Velocity + velocity);
 
-			for (int i = 0; i < meshCount; i++)
+		for (int i = 0; i < meshCount; i++)
+		{
+			Transform child = childs[i];
+
+			child.transform.SetParent(null);
+
+			if (!child.gameObject.GetComponent<Rigidbody>())	//Unity, why?
 			{
-				Transform child = childs[i];
-
-				child.transform.SetParent(null);
 				Rigidbody rb = child.gameObject.AddComponent<Rigidbody>();
 				rb.useGravity = true;
 
 
 				rb.AddForce(combinedVelocity * Random.Range(10, 30), ForceMode.Impulse);
 			}
-
-			GetComponent<Flightmanager>().enabled = false;
-			GetComponent<InputManager>().enabled = false;
-			GetComponent<Rigidbody>().isKinematic = true;
-
-			GetComponentInChildren<RopeManager>().Break();
 		}
+
+		GetComponent<Flightmanager>().enabled = false;
+		GetComponent<InputManager>().enabled = false;
+		GetComponent<Rigidbody>().isKinematic = true;
+
+		GetComponentInChildren<RopeManager>().Break();
 	}
 
 	void OnCollisionEnter(Collision col)
 	{
+		if (dead)
+		{
+			return;
+		}
+
 		if (col.transform.GetComponent<RopeVictim>())
 		{
 			Die(col.transform.GetComponent<RopeVictim>().Velocity);
