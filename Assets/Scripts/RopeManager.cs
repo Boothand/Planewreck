@@ -4,28 +4,28 @@
 public class RopeManager : MonoBehaviour
 {
 	[SerializeField]
-	private int ropeSegments = 2;
+	protected int ropeSegments = 2;
 
 	[SerializeField]
-	private Transform ropeObject;
+	protected Transform ropeObject;
 
-	private Vector3 ropeObjectVelocity;
+	protected Vector3 ropeObjectVelocity;
 
-	private float distanceToTarget;
+	protected float distanceToTarget;
 
 	[SerializeField]
 	[Range(0f, 2f)]
-	private float ropeWidth = 0.4f;
+	protected float ropeWidth = 0.4f;
 
 	[SerializeField]
-	private float ropeLength = 1f;
+	protected float ropeLength = 1f;
 
 	[SerializeField]
-	private float elasticity = 1f;
+	protected float elasticity = 1f;
 
-	LineRenderer lineRend;
+	protected LineRenderer lineRend;
 
-	void Start ()
+	protected void Start ()
 	{
 		lineRend = GetComponent<LineRenderer>();
 		lineRend.numPositions = ropeSegments;
@@ -39,7 +39,7 @@ public class RopeManager : MonoBehaviour
 		lineRend.endWidth = width;
 	}
 	
-	void Update ()
+	protected void Update ()
 	{
 		lineRend.SetPosition(0, transform.position);
 		lineRend.SetPosition(1, ropeObject.position);
