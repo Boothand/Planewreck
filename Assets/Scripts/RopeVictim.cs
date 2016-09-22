@@ -2,15 +2,13 @@
 
 public class RopeVictim : MonoBehaviour
 {
-	[SerializeField]
-	private Transform ropeMaster;
+	private bool colliding;
+
+	public Vector3 Velocity { get; set; }
+	public bool Colliding { get { return colliding; } }
 
 	[SerializeField]
-	private float maxDistance = 5f;
-
-	private Vector3 velocity;
-
-	public Vector3 Velocity { get { return velocity; } }
+	private float collisionThreshold = 3f;
 
 	void Start ()
 	{
@@ -18,29 +16,10 @@ public class RopeVictim : MonoBehaviour
 	}
 
 	void OnCollisionEnter(Collision col)
-	{		
-		velocity.x = -velocity.x;
-	}
-	
-	void FixedUpdate ()
 	{
-		float someForce = 0.1f;
-
-		Vector3 dirToMaster = (ropeMaster.transform.position - transform.position).normalized;
-
-		
-
-		float distanceToMaster = Vector3.Distance(ropeMaster.transform.position, transform.position);
-
-		if (distanceToMaster > maxDistance)
+		if (col.relativeVelocity.magnitude > collisionThreshold)
 		{
-			velocity += dirToMaster * someForce;
+			colliding = true;
 		}
-
-		velocity.y -= 0.981f * Time.deltaTime;
-		
-		velocity = Vector3.ClampMagnitude(velocity, 1f);
-
-		transform.position += velocity;
 	}
 }
