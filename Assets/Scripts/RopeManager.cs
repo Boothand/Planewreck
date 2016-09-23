@@ -29,6 +29,7 @@ public class RopeManager : MonoBehaviour
 	protected void Start ()
 	{
 		lineRend = GetComponent<LineRenderer>();
+
 		lineRend.SetVertexCount(ropeSegments);
 	}
 
@@ -47,6 +48,17 @@ public class RopeManager : MonoBehaviour
 		if (ropeObject.GetComponent<CameraTarget>())
 		{
 			ropeObject.GetComponent<CameraTarget>().Trackable = false;
+		}
+	}
+
+	public void Connect()
+	{
+		isConnected = true;
+		lineRend.SetVertexCount(ropeSegments);
+
+		if (ropeObject.GetComponent<CameraTarget>())
+		{
+			ropeObject.GetComponent<CameraTarget>().Trackable = true;
 		}
 	}
 	
