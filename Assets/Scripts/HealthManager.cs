@@ -26,11 +26,11 @@ public class HealthManager : MonoBehaviour
 
 		childs = new Transform[meshCount];
 
-		int ii = 0;
+		int i = 0;
 		foreach (Transform child in mesh.transform)
 		{
-			childs[ii] = child;
-			ii++;
+			childs[i] = child;
+			i++;
 		}
 	}
 
@@ -42,8 +42,6 @@ public class HealthManager : MonoBehaviour
 		{
 			GetComponent<CameraTarget>().Trackable = false;
 		}
-
-		GetComponent<Collider>().enabled = false;
 
 		Vector3 combinedVelocity = Vector3.Normalize(GetComponent<Flightmanager>().Velocity + velocity);
 
@@ -63,11 +61,22 @@ public class HealthManager : MonoBehaviour
 			}
 		}
 
+		GetComponent<Collider>().enabled = false;
 		GetComponent<Flightmanager>().enabled = false;
 		GetComponent<InputManager>().enabled = false;
 		GetComponent<Rigidbody>().isKinematic = true;
 
 		GetComponentInChildren<RopeManager>().Break();
+	}
+
+	public void EnableComponents()
+	{
+		GetComponent<Flightmanager>().enabled = true;
+		GetComponent<InputManager>().enabled = true;
+		GetComponent<Rigidbody>().isKinematic = false;
+		GetComponent<Collider>().enabled = true;
+
+		GetComponentInChildren<RopeManager>().Connect();
 	}
 
 	void OnCollisionEnter(Collision col)
@@ -84,5 +93,20 @@ public class HealthManager : MonoBehaviour
 
 		if (col.transform.GetComponent<DestructableStatic>())
 			Die(Vector3.zero);
+	}
+
+	void Update()
+	{
+		if (!mesh)
+		{
+			mesh = properties.MeshInstance.gameObject;
+			
+			int i = 0;
+			foreach (Transform child in mesh.transform)
+			{
+				childs[i] = child;
+				i++;
+			}
+		}
 	}
 }

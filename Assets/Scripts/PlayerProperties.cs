@@ -49,6 +49,10 @@ public class PlayerProperties : MonoBehaviour
 	public void ResetPosition()
 	{
 		transform.position = startPosition;
+		transform.forward = flight.StartDirection;
+
+		meshInstance.transform.position = transform.position;
+		meshInstance.transform.rotation = transform.rotation;
 	}
 
 	public void ResetSmasherPosition()
@@ -63,8 +67,11 @@ public class PlayerProperties : MonoBehaviour
 		Destroy(meshInstance);
 		meshInstance = Instantiate(meshPrefab, transform.root) as GameObject;
 
-		MeshInstance.transform.localPosition = Vector3.zero;
+		meshInstance.transform.rotation = meshPrefab.transform.rotation;
+		meshInstance.transform.localPosition = Vector3.zero;
 		meshInstance.transform.localScale = meshPrefab.transform.localScale;
+
+		health.EnableComponents();
 	}
 
 	public void EnableInput()

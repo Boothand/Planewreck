@@ -27,10 +27,11 @@ public class Flightmanager : MonoBehaviour
 	private float minSpeed = 20f;
 
 	private Vector3 movementDir;
+	private Vector3 startDirection;
 
 	public Vector3 Velocity { get { return transform.forward * velocity; } }
+	public Vector3 StartDirection { get { return startDirection; } }
 
-	private Vector3 startDirection;
 
 	void Start ()
 	{
