@@ -20,7 +20,7 @@ public class WreckingBallRope : RopeManager
 
 		if (smasher.Colliding)
 		{
-			print("OK");
+			//print("OK");
 			ropeObjectVelocity *= 0.25f;
 		}
 
