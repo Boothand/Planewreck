@@ -1,12 +1,20 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
 	[SerializeField]
 	private bool ignore;
-	private PlayerProperties[] players;
+	private List<PlayerProperties> players = new List<PlayerProperties>();
+	//private PlayerProperties[] players = new PlayerProperties[4];
 	private OverviewCamera cam;
+
+	[SerializeField]
+	private GameObject playerPrefab;
+
+	[SerializeField]
+	private Transform[] spawnPositions = new Transform[4];
 
 	private PlayerProperties roundWinner;
 	private PlayerProperties gameWinner;
@@ -33,18 +41,47 @@ public class GameManager : MonoBehaviour
 		None
 	}
 
-	void Start ()
+	void Awake()
 	{
 		if (ignore)
 		{
 			return;
 		}
 
+		PlayerProperties[] earlyPlayers = FindObjectsOfType<PlayerProperties>();
+
+		foreach (PlayerProperties props in earlyPlayers)
+		{
+			players.Add(props);
+		}
+
+		//Basically, if we got here via the set-up scene, spawn the rest of the planes..
+		int numberOfPlayers = StaticControll.numberOfPlayers;
+								//int numberOfPlayers = 4;
+
+		if (numberOfPlayers > 0)
+		{
+			int planesInScene = players.Count;
+
+			for (int i = planesInScene; i < numberOfPlayers; i++)
+			{
+				GameObject instance = Instantiate(playerPrefab, spawnPositions[i].position, playerPrefab.transform.rotation);
+				players.Add(instance.transform.GetChild(0).GetComponent<PlayerProperties>());
+			}
+		}
+	}
+
+	void Start ()
+	{
+		if (ignore)
+		{
+			return;
+		}		
+
 		ui = transform.GetComponentInChildren<InGameUI>();
 
-		players = FindObjectsOfType<PlayerProperties>();
 		cam = FindObjectOfType<OverviewCamera>();
-		alivePlayers = players.Length;
+		alivePlayers = players.Count;
 	}
 
 	IEnumerator InitiateRound()
@@ -196,6 +233,8 @@ public class GameManager : MonoBehaviour
 		string playerUIName = "Player";
 		int playerIndex = 0;
 
+		//print(players[3].name);
+
 		foreach (PlayerProperties player in players)
 		{
 			if (!player.Health.Dead)
@@ -210,7 +249,6 @@ public class GameManager : MonoBehaviour
 				ui.DrawPlayerScore(playerIndex, temporaryName, player.Wins);
 			}
 
-			playerIndex++;
 
 			switch (state)
 			{
@@ -222,7 +260,7 @@ public class GameManager : MonoBehaviour
 					break;
 
 				case GameState.PreRound:
-
+					
 					if (StaticControll.inputs[playerIndex] != InputType.Type.Noone)
 					{
 						InputType.Type inputTypeToUse = StaticControll.inputs[playerIndex];
@@ -271,6 +309,8 @@ public class GameManager : MonoBehaviour
 
 					break;
 			}
+
+			playerIndex++;
 		}
 
 		alivePlayers = currentAlivePlayers;
