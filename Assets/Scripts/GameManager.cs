@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
 	private bool initiated;
 	private bool givingPraiseToRoundWinner;
+	private bool roundWasDraw;
 
 	private int roundCountDownTime = 3;
 	private int requiredWins = 5;
@@ -51,6 +52,7 @@ public class GameManager : MonoBehaviour
 		initiated = true;
 		roundWinner = null;
 		gameWinner = null;  //Just in case..
+		roundWasDraw = false;
 		float camResetTime = 1f;
 
 		cam.SetCameraTargetPosition(cam.StartPosition, camResetTime);
@@ -63,7 +65,6 @@ public class GameManager : MonoBehaviour
 		{
 			ui.SetMiddleScreenText(count.ToString());
 			count--;
-			print(count);
 
 			yield return new WaitForSeconds(1f);
 		}
@@ -81,12 +82,18 @@ public class GameManager : MonoBehaviour
 
 	IEnumerator GivePraiseToRoundWinner()
 	{
+		Time.timeScale = 0.2f;
+		Time.fixedDeltaTime = 0.2f * 0.02f;
 		givingPraiseToRoundWinner = true;
 
 		float zoomTime = 0.5f;
-		cam.ZoomOnTarget(roundWinner.transform, zoomTime, 1f);
+		//cam.ZoomOnTarget(roundWinner.transform, zoomTime, 20f, 2f);	//Unfinished
+		//cam.SetTracking(false);
 
-		yield return new WaitForSeconds(zoomTime);
+		yield return new WaitForSecondsRealtime(zoomTime);
+
+		Time.timeScale = 1f;
+		Time.fixedDeltaTime = 0.02f;
 
 		ui.SetMiddleScreenText(roundWinner.PlayerName + " wins the round!", true);
 
@@ -104,6 +111,17 @@ public class GameManager : MonoBehaviour
 		}
 
 		givingPraiseToRoundWinner = false;
+	}
+
+	IEnumerator RoundDrawRoutine()
+	{
+		roundWasDraw = true;
+		ui.SetMiddleScreenText("DRAW!");
+
+		yield return new WaitForSeconds(2f);
+		ui.DisableMiddleScreenText();
+
+		state = GameState.Preround;
 	}
 
 	void UpdatePerServer()
@@ -140,6 +158,16 @@ public class GameManager : MonoBehaviour
 				if (roundWinner)
 				{
 					state = GameState.RoundEnd;
+				}
+				else
+				{
+					if (alivePlayers == 0)
+					{
+						if (!roundWasDraw)
+						{
+							StartCoroutine(RoundDrawRoutine());
+						}
+					}
 				}
 				break;
 
