@@ -208,12 +208,13 @@ public class GameManager : MonoBehaviour
 			{
 				string temporaryName = playerUIName + " " + (playerIndex + 1).ToString();	//Replace me later with real names.
 				ui.DrawPlayerScore(playerIndex, temporaryName, player.Wins);
-				playerIndex++;
 			}
+
+			playerIndex++;
 
 			switch (state)
 			{
-				case GameState.PreGame:
+				case GameState.PreGame:	//Never goes in here atm
 
 					player.DisableInput();
 					player.FreezePosition();
@@ -221,6 +222,13 @@ public class GameManager : MonoBehaviour
 					break;
 
 				case GameState.PreRound:
+
+					if (StaticControll.inputs[playerIndex] != InputType.Type.Noone)
+					{
+						InputType.Type inputTypeToUse = StaticControll.inputs[playerIndex];
+						player.SetInputType(inputTypeToUse);
+						print(inputTypeToUse);
+					}
 
 					player.DisableInput();
 					player.FreezePosition();					
