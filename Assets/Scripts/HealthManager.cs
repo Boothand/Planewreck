@@ -81,6 +81,21 @@ public class HealthManager : MonoBehaviour
 
 	void OnCollisionEnter(Collision col)
 	{
+		if (!mesh)
+		{
+			if (properties.MeshInstance)
+			{
+				mesh = properties.MeshInstance.gameObject;
+
+				int i = 0;
+				foreach (Transform child in mesh.transform)
+				{
+					childs[i] = child;
+					i++;
+				}
+			}
+		}
+
 		if (dead)
 		{
 			return;
@@ -97,16 +112,6 @@ public class HealthManager : MonoBehaviour
 
 	void Update()
 	{
-		if (!mesh)
-		{
-			mesh = properties.MeshInstance.gameObject;
-			
-			int i = 0;
-			foreach (Transform child in mesh.transform)
-			{
-				childs[i] = child;
-				i++;
-			}
-		}
+		
 	}
 }

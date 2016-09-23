@@ -34,13 +34,17 @@ public class PlayerProperties : MonoBehaviour
 		set { wins = value; }
 	}
 
+	void Awake()
+	{
+		meshInstance = transform.root.FindChild("Mesh").gameObject;
+	}
+
 	void Start()
 	{
 		flight = GetComponent<Flightmanager>();
 		health = GetComponent<HealthManager>();
 		input = GetComponent<InputManager>();
 
-		meshInstance = transform.root.FindChild("Mesh").gameObject;
 
 		startPosition = transform.position;
 		smasherStartPosition = smasher.transform.position;
