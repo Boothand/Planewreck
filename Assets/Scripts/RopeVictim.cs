@@ -17,10 +17,10 @@ public class RopeVictim : MonoBehaviour
 
 	void OnCollisionEnter(Collision col)
 	{
-		if (col.relativeVelocity.magnitude > collisionThreshold)
-		{
+		//if (col.relativeVelocity.magnitude > collisionThreshold)
+		//{
 			colliding = true;
-		}
+		//}
 	}
 
 	void OnCollisionExit(Collision col)
