@@ -6,6 +6,7 @@ public class ReadControllType : MonoBehaviour {
     public void ReadInputType()
     {
         StaticControll.numberOfPlayers = 0;
+        StaticControll.inputs = new InputType.Type[4]; //reset all inputs to InputType.Type.Noone
         foreach (Transform child in transform)
         {
             InputType type = child.GetComponentInChildren<InputType>();
@@ -17,10 +18,10 @@ public class ReadControllType : MonoBehaviour {
         } 
     }
 
-    private void PrintInputType()
+    public void PrintInputType()
         {
         string newPrint = StaticControll.numberOfPlayers.ToString() + " - ";
-        for (int i = 0; i<StaticControll.numberOfPlayers; i++)
+        for (int i = 0; i<StaticControll.inputs.Length; i++)
             {
             newPrint += StaticControll.inputs[i].ToString();
             newPrint += " ";
@@ -28,15 +29,6 @@ public class ReadControllType : MonoBehaviour {
 
         print(newPrint);
         }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-            ReadInputType();
-
-        if (Input.GetKeyDown(KeyCode.P))
-            PrintInputType();
-    }
 
     
 }

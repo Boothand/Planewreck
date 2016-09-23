@@ -7,11 +7,11 @@ using System.Collections.Generic;
 public class GameSetup : MonoBehaviour
 {
 	private int numberOfPlayers;
-	
-	private List<GameObject> menus = new List<GameObject>();
 
 	[SerializeField]
-	private Scene defaultGameScene;
+	GameObject firstMenu;
+	
+	private List<GameObject> menus = new List<GameObject>();
 
 	void Start ()
 	{
@@ -19,6 +19,8 @@ public class GameSetup : MonoBehaviour
 		{
 			menus.Add(child.gameObject);
 		}
+
+		DisplayMenu(firstMenu);
 	}
 
 	public void SetNumberOfPlayers(Slider slider)
@@ -34,8 +36,8 @@ public class GameSetup : MonoBehaviour
 	public void StartGame()
 	{
 		//Set up game manager's properties.
-		int sceneNum = defaultGameScene.buildIndex;
-		SceneManager.LoadScene(sceneNum);
+		if (StaticControll.numberOfPlayers > 1)
+		SceneManager.LoadScene(1);
 	}
 
 	public void DisplayMenu(GameObject menu)
@@ -46,10 +48,5 @@ public class GameSetup : MonoBehaviour
 		}
 
 		menu.SetActive(true);
-	}
-
-	void Update ()
-	{
-		
 	}
 }
