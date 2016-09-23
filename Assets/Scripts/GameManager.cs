@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 	private enum GameState
 	{
 		PreGame,
-		Preround,
+		PreRound,
 		Round,
 		RoundEnd,
 		GameEnd,
@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
 		}
 		else
 		{
-			state = GameState.Preround;
+			state = GameState.PreRound;
 		}
 
 		givingPraiseToRoundWinner = false;
@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
 		yield return new WaitForSeconds(2f);
 		ui.DisableMiddleScreenText();
 
-		state = GameState.Preround;
+		state = GameState.PreRound;
 	}
 
 	void UpdatePerServer()
@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour
 
 				if (alivePlayers > 1)
 				{
-					state = GameState.Preround;
+					state = GameState.PreRound;
 				}
 				else
 				{
@@ -142,7 +142,7 @@ public class GameManager : MonoBehaviour
 
 				break;
 
-			case GameState.Preround:
+			case GameState.PreRound:
 
 				if (initiated)
 				{
@@ -193,12 +193,22 @@ public class GameManager : MonoBehaviour
 	void UpdatePerPlayer()
 	{
 		int currentAlivePlayers = 0;
+		string playerUIName = "Player";
+		int playerIndex = 0;
 
 		foreach (PlayerProperties player in players)
 		{
 			if (!player.Health.Dead)
 			{
 				currentAlivePlayers++;
+			}
+
+			if (state >= GameState.PreRound &&
+				state <= GameState.RoundEnd)
+			{
+				string temporaryName = playerUIName + " " + (playerIndex + 1).ToString();	//Replace me later with real names.
+				ui.DrawPlayerScore(playerIndex, temporaryName, player.Wins);
+				playerIndex++;
 			}
 
 			switch (state)
@@ -210,7 +220,7 @@ public class GameManager : MonoBehaviour
 
 					break;
 
-				case GameState.Preround:
+				case GameState.PreRound:
 
 					player.DisableInput();
 					player.FreezePosition();					
@@ -225,13 +235,19 @@ public class GameManager : MonoBehaviour
 
 					break;
 				case GameState.Round:
+
 					player.EnableInput();
 					player.UnFreezePosition();
 
 					if (alivePlayers == 1 && !player.Health.Dead)
 					{
 						//This person wins the round.
-						roundWinner = player;
+
+						if (!roundWinner)
+						{
+							roundWinner = player;
+							roundWinner.Wins++;
+						}
 					}
 
 					break;
