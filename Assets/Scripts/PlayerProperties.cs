@@ -12,6 +12,8 @@ public class PlayerProperties : MonoBehaviour
 
 	private string playerName = "Player";
 
+	private bool isAI;
+
 	[SerializeField]
 	private GameObject meshPrefab;
 	private GameObject meshInstance;
@@ -23,10 +25,19 @@ public class PlayerProperties : MonoBehaviour
 
 	private Vector3 smasherStartPosition;
 
+	[SerializeField]
+	private InputType.Type inputType = InputType.Type.WASD;
+
 	public Flightmanager Flight { get { return flight; } }
 	public HealthManager Health { get { return health; } }
 	public string PlayerName { get { return playerName; } }
 	public Transform MeshInstance { get { return meshInstance.transform; } }
+
+	public bool IsAI
+	{
+		get { return isAI; }
+		set { isAI = value; }
+	}
 
 	public int Wins
 	{
@@ -45,9 +56,10 @@ public class PlayerProperties : MonoBehaviour
 		health = GetComponent<HealthManager>();
 		input = GetComponent<InputManager>();
 
-
 		startPosition = transform.position;
 		smasherStartPosition = smasher.transform.position;
+
+		SetInputType(inputType);
 	}
 
 	public void ResetPosition()
@@ -96,6 +108,36 @@ public class PlayerProperties : MonoBehaviour
 	public void UnFreezePosition()
 	{
 		flight.enabled = true;
+	}
+
+	public void SetInputType(InputType.Type type)
+	{
+		inputType = type;
+
+		if (!isAI)
+		{
+			PlayerController ctr = GetComponent<PlayerController>();
+
+			switch (type)
+			{
+				case InputType.Type.WASD:
+					ctr.HorzString = "Horizontal";
+					ctr.VertString = "Vertical";
+					break;
+				case InputType.Type.Arrows:
+					ctr.HorzString = "Horizontal2";
+					ctr.VertString = "Vertical2";
+					break;
+				case InputType.Type.Joystick1:
+					ctr.HorzString = "Horizontal3";
+					ctr.VertString = "Vertical3";
+					break;
+				case InputType.Type.Joystick2:
+					ctr.HorzString = "Horizontal4";
+					ctr.VertString = "Vertical4";
+					break;
+			}
+		}
 	}
 		
 	void Update ()
