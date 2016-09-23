@@ -15,6 +15,9 @@ public class OverviewCamera : MonoBehaviour
 	[SerializeField]
 	private float minDistance = -30f;
 
+	[SerializeField]
+	private float minHeight = -32;
+
 	private int trackableObjectCount;
 	private Vector3 startPos;
 
@@ -31,32 +34,65 @@ public class OverviewCamera : MonoBehaviour
 		startPos = transform.position;
 	}
 
-	IEnumerator ZoomOnTargetRoutine(Vector3 targetPos, float zoomTime, float distance)
+	public void SetTracking(bool enable)
+	{
+		trackObjects = enable;
+	}
+
+	IEnumerator ZoomOnTargetRoutine(Transform target, float zoomTime, float distance, float extraTime = 0f)
 	{
 		trackObjects = false;
 		Vector3 startPos = transform.position;
+		
 		float timer = 0f;
 
 		while (timer < zoomTime)
 		{
 			timer += Time.deltaTime;
 
-			transform.position = Vector3.Lerp(startPos, targetPos - (Vector3.forward * distance), timer);
+			Vector3 targetPosition = target.position;
+			targetPosition.z -= distance;
+
+			transform.position = Vector3.Lerp(startPos, target.position, timer);
 
 			yield return new WaitForEndOfFrame();
 		}
 
+		print("Here");
+		transform.position = target.position - Vector3.forward * distance;
+		yield return new WaitForSeconds(extraTime);
+
 		trackObjects = true;
 	}
 
-	public void ZoomOnTarget(Transform target, float zoomTime, float distance)
+	IEnumerator GoToPosRoutine(Vector3 pos, float duration)
 	{
-		StartCoroutine(ZoomOnTargetRoutine(target.position, zoomTime, distance));
+		trackObjects = false;
+		Vector3 startPos = transform.position;
+		float timer = 0f;
+
+		while (timer < duration)
+		{
+			timer += Time.deltaTime;
+
+			transform.position = Vector3.Lerp(startPos, pos, timer);
+
+			yield return new WaitForEndOfFrame();
+		}
+
+		transform.position = pos;
+
+		trackObjects = true;
+	}
+
+	public void ZoomOnTarget(Transform target, float zoomTime, float distance, float extraTime = 0f)
+	{
+		StartCoroutine(ZoomOnTargetRoutine(target, zoomTime, distance, extraTime));
 	}
 
 	public void SetCameraTargetPosition(Vector3 targetPos, float travelTime)
 	{
-		StartCoroutine(ZoomOnTargetRoutine(targetPos, travelTime, 0f));
+		StartCoroutine(GoToPosRoutine(targetPos, travelTime));
 	}
 
 	void TrackSceneObjects()
@@ -114,6 +150,11 @@ public class OverviewCamera : MonoBehaviour
 		float zDistance = Vector2.Distance(upperRight, lowerLeft);
 		camPos.z = -zDistance;
 		camPos.z = Mathf.Clamp(camPos.z, maxDistance, minDistance);
+
+		if (camPos.y < minHeight)
+		{
+			camPos.y = minHeight;
+		}
 
 		transform.position = Vector3.Lerp(transform.position, camPos, Time.deltaTime * lerpSpeed);
 
