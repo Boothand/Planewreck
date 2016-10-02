@@ -44,4 +44,16 @@ public class SetupPlayers : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 	}
 
 	#endregion
+
+	[SerializeField]
+	PlayerControllers.ControllType type;
+
+	public PlayerControllers.ControllType getType
+	{
+		get
+		{
+			return type;
+		}
+	}
+
 }

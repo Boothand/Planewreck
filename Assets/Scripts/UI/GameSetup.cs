@@ -36,7 +36,7 @@ public class GameSetup : MonoBehaviour
 	public void StartGame()
 	{
 		//Set up game manager's properties.
-		if (StaticControll.numberOfPlayers > 1)
+		if (PlayerControllers.numberOfPlayers > 1)
 		SceneManager.LoadScene(1);
 	}
 

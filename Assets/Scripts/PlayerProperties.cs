@@ -26,7 +26,7 @@ public class PlayerProperties : MonoBehaviour
 	private Vector3 smasherStartPosition;
 
 	[SerializeField]
-	private InputType.Type inputType = InputType.Type.WASD;
+	private PlayerControllers.ControllType inputType = PlayerControllers.ControllType.WASD;
 
 	public Flightmanager Flight { get { return flight; } }
 	public HealthManager Health { get { return health; } }
@@ -110,7 +110,7 @@ public class PlayerProperties : MonoBehaviour
 		flight.enabled = true;
 	}
 
-	public void SetInputType(InputType.Type type)
+	public void SetInputType(PlayerControllers.ControllType type)
 	{
 		inputType = type;
 
@@ -120,19 +120,19 @@ public class PlayerProperties : MonoBehaviour
 
 			switch (type)
 			{
-				case InputType.Type.WASD:
+				case PlayerControllers.ControllType.WASD:
 					ctr.HorzString = "Horizontal";
 					ctr.VertString = "Vertical";
 					break;
-				case InputType.Type.Arrows:
+				case PlayerControllers.ControllType.Arrows:
 					ctr.HorzString = "Horizontal2";
 					ctr.VertString = "Vertical2";
 					break;
-				case InputType.Type.Joystick1:
+				case PlayerControllers.ControllType.Joystick1:
 					ctr.HorzString = "Horizontal3";
 					ctr.VertString = "Vertical3";
 					break;
-				case InputType.Type.Joystick2:
+				case PlayerControllers.ControllType.Joystick2:
 					ctr.HorzString = "Horizontal4";
 					ctr.VertString = "Vertical4";
 					break;

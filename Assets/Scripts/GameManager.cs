@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
 		}
 
 		//Basically, if we got here via the set-up scene, spawn the rest of the planes..
-		int numberOfPlayers = StaticControll.numberOfPlayers;
+		int numberOfPlayers = PlayerControllers.numberOfPlayers;
 								//int numberOfPlayers = 4;
 
 		if (numberOfPlayers > 0)
@@ -261,9 +261,9 @@ public class GameManager : MonoBehaviour
 
 				case GameState.PreRound:
 					
-					if (StaticControll.inputs[playerIndex] != InputType.Type.Noone)
+					if (PlayerControllers.inputs[playerIndex] != PlayerControllers.ControllType.Noone)
 					{
-						InputType.Type inputTypeToUse = StaticControll.inputs[playerIndex];
+						PlayerControllers.ControllType inputTypeToUse = PlayerControllers.inputs[playerIndex];
 						player.SetInputType(inputTypeToUse);
 						print(inputTypeToUse);
 					}

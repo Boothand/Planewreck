@@ -5,25 +5,25 @@ public class ReadControllType : MonoBehaviour {
 
     public void ReadInputType()
     {
-        StaticControll.numberOfPlayers = 0;
-        StaticControll.inputs = new InputType.Type[4]; //reset all inputs to InputType.Type.Noone
+        PlayerControllers.numberOfPlayers = 0;
+        PlayerControllers.inputs = new PlayerControllers.ControllType[4]; //reset all inputs to InputType.Type.Noone
         foreach (Transform child in transform)
         {
-            InputType type = child.GetComponentInChildren<InputType>();
+            SetupPlayers type = child.GetComponentInChildren<SetupPlayers>();
             if (type)
             {
-                StaticControll.inputs[StaticControll.numberOfPlayers] = type.getType;
-                StaticControll.numberOfPlayers++;
+                PlayerControllers.inputs[PlayerControllers.numberOfPlayers] = type.getType;
+                PlayerControllers.numberOfPlayers++;
             }
         } 
     }
 
     public void PrintInputType()
         {
-        string newPrint = StaticControll.numberOfPlayers.ToString() + " - ";
-        for (int i = 0; i<StaticControll.inputs.Length; i++)
+        string newPrint = PlayerControllers.numberOfPlayers.ToString() + " - ";
+        for (int i = 0; i<PlayerControllers.inputs.Length; i++)
             {
-            newPrint += StaticControll.inputs[i].ToString();
+            newPrint += PlayerControllers.inputs[i].ToString();
             newPrint += " ";
             }
 
