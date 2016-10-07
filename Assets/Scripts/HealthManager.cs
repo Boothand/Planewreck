@@ -101,7 +101,7 @@ public class HealthManager : MonoBehaviour
 			return;
 		}
 
-		if (col.transform.GetComponent<RopeVictim>())
+		if (col.transform.GetComponent<RopeVictim>() && col.transform.root != transform.root)
 		{
 			Die(col.transform.GetComponent<RopeVictim>().Velocity);
 		}
