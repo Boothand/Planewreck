@@ -1,17 +1,15 @@
 ﻿using UnityEngine;
 
-public class RopeVictim : MonoBehaviour
+public class RopeVictim : PhysicsObject
 {
-	private bool colliding;
-
-	public Vector3 Velocity { get; set; }
-	public bool Colliding { get { return colliding; } }
+	public bool colliding { get; private set; }
 
 	[SerializeField]
 	private float collisionThreshold = 3f;
 
-	void Update()
+	new void Update()
 	{
+		base.Update();
 		colliding = false;
 	}
 
