@@ -59,16 +59,16 @@ public class GameManager : MonoBehaviour
 		int numberOfPlayers = PlayerControllers.numberOfPlayers;
 								//int numberOfPlayers = 4;
 
-		if (numberOfPlayers > 0)
-		{
-			int planesInScene = players.Count;
+		
+		int planesInScene = players.Count;
 
-			for (int i = planesInScene; i < numberOfPlayers; i++)
-			{
-				GameObject instance = Instantiate(playerPrefab, spawnPositions[i].position, playerPrefab.transform.rotation);
-				players.Add(instance.transform.GetChild(0).GetComponent<PlayerProperties>());
-			}
+		for (int i = planesInScene; i < numberOfPlayers; i++)
+		{
+			GameObject instance = Instantiate(playerPrefab, spawnPositions[i].position, playerPrefab.transform.rotation);
+			players.Add(instance.transform.GetChild(0).GetComponent<PlayerProperties>());
+			instance.GetComponent<PlayerProperties>().SetProperties(i);
 		}
+		
 	}
 
 	void Start ()
@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour
 
 		ui.DisableMiddleScreenText();
 
-		if (roundWinner.Wins == requiredWins)
+		if (roundWinner.wins == requiredWins)
 		{
 			state = GameState.GameEnd;
 		}
@@ -246,7 +246,7 @@ public class GameManager : MonoBehaviour
 				state <= GameState.RoundEnd)
 			{
 				string temporaryName = playerUIName + " " + (playerIndex + 1).ToString();	//Replace me later with real names.
-				ui.DrawPlayerScore(playerIndex, temporaryName, player.Wins);
+				ui.DrawPlayerScore(playerIndex, temporaryName, player.wins);
 			}
 
 
@@ -292,7 +292,7 @@ public class GameManager : MonoBehaviour
 						if (!roundWinner)
 						{
 							roundWinner = player;
-							roundWinner.Wins++;
+							roundWinner.wins++;
 						}
 					}
 
