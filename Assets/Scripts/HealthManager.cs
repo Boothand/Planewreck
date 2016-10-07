@@ -43,7 +43,7 @@ public class HealthManager : MonoBehaviour
 			GetComponent<CameraTarget>().Trackable = false;
 		}
 
-		Vector3 combinedVelocity = Vector3.Normalize(GetComponent<Flightmanager>().Velocity + velocity);
+		Vector3 combinedVelocity = GetComponent<Flightmanager>().Velocity + velocity;
 
 		for (int i = 0; i < meshCount; i++)
 		{
@@ -56,8 +56,12 @@ public class HealthManager : MonoBehaviour
 				Rigidbody rb = child.gameObject.AddComponent<Rigidbody>();
 				rb.useGravity = true;
 
+				float rMin = -1f;
+				float rMax = 3f;
 
-				rb.AddForce(combinedVelocity * Random.Range(10, 30), ForceMode.Impulse);
+				Vector3 newVelocity = new Vector3(combinedVelocity.x * Random.Range(rMin, rMax), combinedVelocity.y * Random.Range(rMin, rMax), combinedVelocity.z * Random.Range(rMin, rMax));
+				rb.AddForce(newVelocity, ForceMode.Impulse);
+
 			}
 		}
 
