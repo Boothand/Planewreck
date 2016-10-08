@@ -43,7 +43,7 @@ public class DestructableStatic : MonoBehaviour
 
 		if (col.transform.GetComponent<RopeVictim>())
 		{
-			velocity = col.transform.GetComponent<RopeVictim>().Velocity;
+			velocity = col.transform.GetComponent<RopeVictim>().getVelocity;
 			velocity.x = -velocity.x;
 		}
 		else if (col.transform.GetComponent<Flightmanager>())

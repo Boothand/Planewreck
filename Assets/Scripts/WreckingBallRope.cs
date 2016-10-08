@@ -12,18 +12,33 @@ public class WreckingBallRope : RopeManager
 		smasher = ropeObject.GetComponent<RopeVictim>();
 	}
 
+	public override void Connect()
+	{
+		base.Connect();
 
-	
+		if (ropeObject.GetComponent<CameraTarget>())
+		{
+			ropeObject.GetComponent<CameraTarget>().Trackable = true;
+		}
+	}
+
+	public override void Break()
+	{
+		base.Break();
+
+		if (ropeObject.GetComponent<CameraTarget>())
+		{
+			ropeObject.GetComponent<CameraTarget>().Trackable = false;
+		}
+	}
+
 	new void Update ()
 	{
 		base.Update();
 
-		if (smasher.Colliding)
+		if (smasher.colliding)
 		{
-			//print("OK");
-			ropeObjectVelocity *= 0.25f;
+			smasher.MultiplyVelocity(0.25f);
 		}
-
-		smasher.Velocity = ropeObjectVelocity;
 	}
 }
