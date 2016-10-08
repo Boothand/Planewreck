@@ -14,7 +14,8 @@ public class PhysicsObject : MonoBehaviour
 	[SerializeField]
 	float gravity = -9.81f;
 
-
+	[SerializeField]
+	float maxVelocity = 1f;
 
 	public Vector3 getVelocity { get { return velocity; } }
 
@@ -43,7 +44,10 @@ public class PhysicsObject : MonoBehaviour
 	{
 		if (!ignoreGravity)
 		{
-			velocity.y += gravity / 100f * Time.deltaTime;
+			if (velocity.y > -maxVelocity)
+			{
+				velocity.y += gravity / 100f * Time.deltaTime;
+			}
 		}
 
 		transform.position += velocity;
