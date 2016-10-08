@@ -6,8 +6,6 @@ using System.Collections.Generic;
 
 public class GameSetup : MonoBehaviour
 {
-	private int numberOfPlayers;
-
 	[SerializeField]
 	GameObject firstMenu;
 	
@@ -23,21 +21,12 @@ public class GameSetup : MonoBehaviour
 		DisplayMenu(firstMenu);
 	}
 
-	public void SetNumberOfPlayers(Slider slider)
-	{
-		numberOfPlayers = Mathf.FloorToInt(slider.value);
-	}
-
-	public void SetPlayerNumText(Text displayText)
-	{
-		displayText.text = numberOfPlayers.ToString();
-	}
-
 	public void StartGame()
 	{
-		//Set up game manager's properties.
-		if (PlayerControllers.numberOfPlayers > 1)
-		SceneManager.LoadScene(1);
+		if (GlobalVariables.numberOfPlayers > 1)
+		{
+			SceneManager.LoadScene(1);
+		}
 	}
 
 	public void DisplayMenu(GameObject menu)
