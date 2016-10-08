@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class WreckingBallRope : RopeManager
 {
-	private RopeVictim smasher;
+	private WreckingBall smasher;
 
 	new void Start ()
 	{
 		base.Start();
 
-		smasher = ropeObject.GetComponent<RopeVictim>();
+		smasher = ropeObject.GetComponent<WreckingBall>();
 	}
 
 	public override void Connect()

@@ -6,7 +6,7 @@ public class HealthManager : MonoBehaviour
 {
 	private GameObject mesh;
 
-	private PlayerProperties properties;
+	private AirplaneManager properties;
 
 	private int meshCount;
 
@@ -17,9 +17,9 @@ public class HealthManager : MonoBehaviour
 
 	void Start()
 	{
-		properties = GetComponent<PlayerProperties>();
+		properties = GetComponent<AirplaneManager>();
 
-		mesh = properties.MeshInstance.gameObject;
+		mesh = properties.meshInstance;
 
 		meshCount = mesh.transform.childCount;
 
@@ -43,7 +43,7 @@ public class HealthManager : MonoBehaviour
 			GetComponent<CameraTarget>().Trackable = false;
 		}
 
-		Vector3 combinedVelocity = GetComponent<Flightmanager>().Velocity + velocity;
+		Vector3 combinedVelocity = GetComponent<Flightmanager>().velocity + velocity;
 
 		for (int i = 0; i < meshCount; i++)
 		{
@@ -87,9 +87,9 @@ public class HealthManager : MonoBehaviour
 	{
 		if (!mesh)
 		{
-			if (properties.MeshInstance)
+			if (properties.meshInstance)
 			{
-				mesh = properties.MeshInstance.gameObject;
+				mesh = properties.meshInstance;
 
 				int i = 0;
 				foreach (Transform child in mesh.transform)
@@ -105,12 +105,12 @@ public class HealthManager : MonoBehaviour
 			return;
 		}
 
-		if (col.transform.GetComponent<RopeVictim>() && col.transform.root != transform.root)
+		if (col.transform.GetComponent<WreckingBall>() && col.transform.root != transform.root)
 		{
-			Die(col.transform.GetComponent<RopeVictim>().getVelocity);
+			Die(col.transform.GetComponent<WreckingBall>().getVelocity);
 		}
 
-		if (col.transform.GetComponent<DestructableStatic>())
+		if (col.transform.GetComponent<DestructibleBuilding>())
 			Die(Vector3.zero);
 	}
 

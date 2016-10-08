@@ -2,22 +2,24 @@
 
 [RequireComponent(typeof(Flightmanager))]
 [RequireComponent(typeof(HealthManager))]
-public class PlayerProperties : MonoBehaviour
+public class AirplaneManager : MonoBehaviour
 {
 	public int wins;
-	Flightmanager flight;
-	HealthManager health;
+	public Flightmanager flight { get; private set; }
+	public HealthManager health { get; private set; }
 	InputManager input;
 
 	[SerializeField]
 	Color color = Color.white;
-	string playerName = "Player";
 
-	bool isAI;
+	public string playerName { get; private set; }
+
+	public bool isAI;
 
 	[SerializeField]
 	GameObject meshPrefab;
-	GameObject meshInstance;
+
+	public GameObject meshInstance { get; private set; }
 
 	[SerializeField]
 	Transform smasher;
@@ -27,18 +29,7 @@ public class PlayerProperties : MonoBehaviour
 	Vector3 smasherStartOffset;
 
 	[SerializeField]
-	PlayerControllers.ControllType inputType = PlayerControllers.ControllType.WASD;
-
-	public Flightmanager Flight { get { return flight; } }
-	public HealthManager Health { get { return health; } }
-	public string PlayerName { get { return playerName; } }
-	public Transform MeshInstance { get { return meshInstance.transform; } }
-
-	public bool IsAI
-	{
-		get { return isAI; }
-		set { isAI = value; }
-	}
+	GlobalVariables.ControlType inputType = GlobalVariables.ControlType.WASD;
 
 
 	void Awake()
@@ -51,6 +42,11 @@ public class PlayerProperties : MonoBehaviour
 		flight = GetComponent<Flightmanager>();
 		health = GetComponent<HealthManager>();
 		input = GetComponent<InputManager>();
+
+		if (playerName == null)
+		{
+			playerName = "Noname";
+		}
 
 		startPosition = transform.position;
 		smasherStartOffset = smasher.transform.position - meshInstance.transform.position;
@@ -83,22 +79,22 @@ public class PlayerProperties : MonoBehaviour
 		
 		transform.LookAt(transform.position + facing, Vector3.up);
 
-		MeshInstance.transform.position = transform.position;
-		MeshInstance.transform.rotation = transform.rotation;
+		meshInstance.transform.position = transform.position;
+		meshInstance.transform.rotation = transform.rotation;
 	}
 
 	public void SetProperties(int index) //used once when object is first Instantiated in GameManager
 	{
-		playerName = PlayerControllers.names[index]; // set player name
+		playerName = GlobalVariables.names[index];
 
-		if (PlayerControllers.inputs[index] != PlayerControllers.ControllType.Noone)
+		if (GlobalVariables.inputs[index] != GlobalVariables.ControlType.Noone)
 		{
-			inputType = PlayerControllers.inputs[index]; // set input type
+			inputType = GlobalVariables.inputs[index];
 		}
 
-		if (PlayerControllers.colors[index] != null)
+		if (GlobalVariables.colors[index] != null)
 		{
-			color = PlayerControllers.colors[index]; //set color
+			color = GlobalVariables.colors[index];
 		}
 	}
 
@@ -133,27 +129,17 @@ public class PlayerProperties : MonoBehaviour
 		}
 	}
 
-	public void EnableInput()
+	public void EnableInput(bool truth = true)
 	{
-		input.enabled = true;
+		input.enabled = truth;
 	}
 
-	public void DisableInput()
+	public void EnableFlight(bool truth = true)
 	{
-		input.enabled = false;
+		flight.enabled = truth;
 	}
 
-	public void FreezePosition()
-	{
-		flight.enabled = false;
-	}
-
-	public void UnFreezePosition()
-	{
-		flight.enabled = true;
-	}
-
-	public void SetInputType(PlayerControllers.ControllType type)
+	public void SetInputType(GlobalVariables.ControlType type)
 	{
 		inputType = type;
 
@@ -162,19 +148,19 @@ public class PlayerProperties : MonoBehaviour
 			PlayerController ctr = GetComponent<PlayerController>();
 			switch (type)
 			{
-				case PlayerControllers.ControllType.WASD:
+				case GlobalVariables.ControlType.WASD:
 					ctr.HorzString = "Horizontal";
 					ctr.VertString = "Vertical";
 					break;
-				case PlayerControllers.ControllType.Arrows:
+				case GlobalVariables.ControlType.Arrows:
 					ctr.HorzString = "Horizontal2";
 					ctr.VertString = "Vertical2";
 					break;
-				case PlayerControllers.ControllType.Joystick1:
+				case GlobalVariables.ControlType.Joystick1:
 					ctr.HorzString = "Horizontal3";
 					ctr.VertString = "Vertical3";
 					break;
-				case PlayerControllers.ControllType.Joystick2:
+				case GlobalVariables.ControlType.Joystick2:
 					ctr.HorzString = "Horizontal4";
 					ctr.VertString = "Vertical4";
 					break;

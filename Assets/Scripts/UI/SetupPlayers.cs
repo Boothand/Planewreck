@@ -10,7 +10,8 @@ public class SetupPlayers : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 	Vector3 startPosition;
 	Transform startParent;
 
-	#region IBeginDragHandler implementation
+	[SerializeField]
+	public GlobalVariables.ControlType type { get; private set; }
 
 	public void OnBeginDrag(PointerEventData eventData)
 	{
@@ -20,18 +21,10 @@ public class SetupPlayers : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 		GetComponent<CanvasGroup>().blocksRaycasts = false;
 	}
 
-	#endregion
-
-	#region IDragHandler implementation
-
 	public void OnDrag(PointerEventData eventData)
 	{
 		transform.position = Input.mousePosition;
 	}
-
-	#endregion
-
-	#region OnEndDrag implementation
 
 	public void OnEndDrag(PointerEventData eventData)
 	{
@@ -41,19 +34,8 @@ public class SetupPlayers : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 		{
 			transform.position = startPosition;
 		}
-	}
+	}	
 
-	#endregion
-
-	[SerializeField]
-	PlayerControllers.ControllType type;
-
-	public PlayerControllers.ControllType getType
-	{
-		get
-		{
-			return type;
-		}
-	}
+	
 
 }

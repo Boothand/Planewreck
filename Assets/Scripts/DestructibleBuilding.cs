@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
-public class DestructableStatic : MonoBehaviour
+public class DestructibleBuilding : MonoBehaviour
 {
 	StructureElement[] elements;
 
@@ -41,14 +41,14 @@ public class DestructableStatic : MonoBehaviour
 
 		Vector3 velocity = col.relativeVelocity;
 
-		if (col.transform.GetComponent<RopeVictim>())
+		if (col.transform.GetComponent<WreckingBall>())
 		{
-			velocity = col.transform.GetComponent<RopeVictim>().getVelocity;
+			velocity = col.transform.GetComponent<WreckingBall>().getVelocity;
 			velocity.x = -velocity.x;
 		}
-		else if (col.transform.GetComponent<Flightmanager>())
+		else if (col.transform.GetComponent<AirplaneManager>())
 		{
-			velocity = col.transform.GetComponent<Flightmanager>().Velocity / 60f;
+			velocity = col.transform.GetComponent<Flightmanager>().velocity / 60f;
 		}
 
 		foreach (StructureElement element in elements)

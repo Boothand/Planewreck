@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
 	[SerializeField]
 	private bool ignore;
-	private List<PlayerProperties> players = new List<PlayerProperties>();
+	private List<AirplaneManager> players = new List<AirplaneManager>();
 	//private PlayerProperties[] players = new PlayerProperties[4];
 	private OverviewCamera cam;
 
@@ -16,8 +16,8 @@ public class GameManager : MonoBehaviour
 	[SerializeField]
 	private Transform[] spawnPositions = new Transform[4];
 
-	private PlayerProperties roundWinner;
-	private PlayerProperties gameWinner;
+	private AirplaneManager roundWinner;
+	private AirplaneManager gameWinner;
 
 	private bool initiated;
 	private bool givingPraiseToRoundWinner;
@@ -48,15 +48,15 @@ public class GameManager : MonoBehaviour
 			return;
 		}
 
-		PlayerProperties[] earlyPlayers = FindObjectsOfType<PlayerProperties>();
+		AirplaneManager[] earlyPlayers = FindObjectsOfType<AirplaneManager>();
 
-		foreach (PlayerProperties props in earlyPlayers)
+		foreach (AirplaneManager props in earlyPlayers)
 		{
 			players.Add(props);
 		}
 
 		//Basically, if we got here via the set-up scene, spawn the rest of the planes..
-		int numberOfPlayers = PlayerControllers.numberOfPlayers;
+		int numberOfPlayers = GlobalVariables.numberOfPlayers;
 								//int numberOfPlayers = 4;
 
 		
@@ -65,8 +65,8 @@ public class GameManager : MonoBehaviour
 		for (int i = planesInScene; i < numberOfPlayers; i++)
 		{
 			GameObject instance = Instantiate(playerPrefab, spawnPositions[i].position, playerPrefab.transform.rotation);
-			players.Add(instance.transform.GetChild(0).GetComponent<PlayerProperties>());
-			instance.GetComponent<PlayerProperties>().SetProperties(i);
+			players.Add(instance.transform.GetChild(0).GetComponent<AirplaneManager>());
+			instance.GetComponent<AirplaneManager>().SetProperties(i);
 		}
 		
 	}
@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour
 		Time.timeScale = 1f;
 		Time.fixedDeltaTime = 0.02f;
 
-		ui.SetMiddleScreenText(roundWinner.PlayerName + " wins the round!", true);
+		ui.SetMiddleScreenText(roundWinner.playerName + " wins the round!", true);
 
 		yield return new WaitForSeconds(3f);
 
@@ -235,9 +235,9 @@ public class GameManager : MonoBehaviour
 
 		//print(players[3].name);
 
-		foreach (PlayerProperties player in players)
+		foreach (AirplaneManager player in players)
 		{
-			if (!player.Health.Dead)
+			if (!player.health.Dead)
 			{
 				currentAlivePlayers++;
 			}
@@ -254,24 +254,24 @@ public class GameManager : MonoBehaviour
 			{
 				case GameState.PreGame:	//Never goes in here atm
 
-					player.DisableInput();
-					player.FreezePosition();
+					player.EnableInput(false);
+					player.EnableFlight(false);
 
 					break;
 
 				case GameState.PreRound:
 					
-					if (PlayerControllers.inputs[playerIndex] != PlayerControllers.ControllType.Noone)
+					if (GlobalVariables.inputs[playerIndex] != GlobalVariables.ControlType.Noone)
 					{
-						PlayerControllers.ControllType inputTypeToUse = PlayerControllers.inputs[playerIndex];
+						GlobalVariables.ControlType inputTypeToUse = GlobalVariables.inputs[playerIndex];
 						player.SetInputType(inputTypeToUse);
 						print(inputTypeToUse);
 					}
 
-					player.DisableInput();
-					player.FreezePosition();					
+					player.EnableInput();
+					player.EnableFlight();					
 
-					if (player.Health.Dead)
+					if (player.health.Dead)
 					{
 						player.Revive();
 					}
@@ -283,9 +283,9 @@ public class GameManager : MonoBehaviour
 				case GameState.Round:
 
 					player.EnableInput();
-					player.UnFreezePosition();
+					player.EnableFlight();
 
-					if (alivePlayers == 1 && !player.Health.Dead)
+					if (alivePlayers == 1 && !player.health.Dead)
 					{
 						//This person wins the round.
 

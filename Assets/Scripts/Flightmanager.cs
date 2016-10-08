@@ -2,14 +2,13 @@
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(InputManager))]
-[RequireComponent(typeof(PlayerProperties))]
+[RequireComponent(typeof(AirplaneManager))]
 public class Flightmanager : MonoBehaviour
 {
-	private	Rigidbody rb;
 	private InputManager input;
-	private PlayerProperties properties;
+	private AirplaneManager properties;
 	
-	private float velocity;
+	private float speed;
 
 	private float pitchSpeed = 5f;
 	private float rollSpeed = 0.45f;
@@ -29,21 +28,20 @@ public class Flightmanager : MonoBehaviour
 	private Vector3 movementDir;
 	private Vector3 startDirection;
 
-	public Vector3 Velocity { get { return transform.forward * velocity; } }
+	public Vector3 velocity { get { return transform.forward * speed; } }
 	public Vector3 StartDirection { get { return startDirection; } }
 
 
 	void Start ()
 	{
-		properties = GetComponent<PlayerProperties>();
+		properties = GetComponent<AirplaneManager>();
 
-		plane = properties.MeshInstance;
-		rb = GetComponent<Rigidbody>();
+		plane = properties.meshInstance.transform;
 		input = GetComponent<InputManager>();
 
 		startDirection = transform.forward;
 		
-		velocity = minSpeed;
+		speed = minSpeed;
 	}
 
 	void FightGravity()
@@ -51,21 +49,21 @@ public class Flightmanager : MonoBehaviour
 		//Compare angle deviation from center
 		float angle = Vector3.Angle(Vector3.right, transform.forward);
 
-		if (rb.velocity.x < 0)
+		if (movementDir.x < 0)
 		{
 			angle = Vector3.Angle(Vector3.left, transform.forward);
 		}
 
-		velocity += Time.deltaTime * 5f;
+		speed += Time.deltaTime * 5f;
 
 		//Gradually go slower uphill, faster downhill
 		if (transform.position.y + transform.forward.y > transform.position.y)
 		{
-			velocity *= 1 - (angle / 90f) * Time.deltaTime;
+			speed *= 1 - (angle / 90f) * Time.deltaTime;
 		}
 		else
 		{
-			velocity *= 1 + (angle / 90f) * Time.deltaTime;
+			speed *= 1 + (angle / 90f) * Time.deltaTime;
 		}
 	}
 
@@ -75,23 +73,29 @@ public class Flightmanager : MonoBehaviour
 
 		Vector3 planeRot = plane.eulerAngles;
 		planeRot.x = transform.eulerAngles.x;
-		planeRot.y = Mathf.LerpAngle(planeRot.y, transform.eulerAngles.y, Time.deltaTime * rollSpeed * (velocity * 0.25f));
+		planeRot.y = Mathf.LerpAngle(planeRot.y, transform.eulerAngles.y, Time.deltaTime * rollSpeed * (speed * 0.25f));
 		plane.eulerAngles = planeRot;
 
 		plane.position = transform.position;
 
-		propeller.transform.Rotate(propeller.transform.up, Time.deltaTime * velocity * propellerSpeed, Space.World);
+		propeller.transform.Rotate(propeller.transform.up, Time.deltaTime * speed * propellerSpeed, Space.World);
+	}
+
+	void FixedUpdate()
+	{
+		transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
 	}
 	
 	void Update ()
 	{
 		FightGravity();
 
-		velocity = Mathf.Clamp(velocity, minSpeed, maxSpeed);
+		speed = Mathf.Clamp(speed, minSpeed, maxSpeed);
 
 		//Face towards the input direction
 		movementDir = new Vector3(input.Horizontal, input.Vertical);
 		transform.forward = Vector3.Lerp(transform.forward, movementDir, Time.deltaTime * pitchSpeed);
+
 		if (transform.forward == Vector3.forward)
 			transform.forward = startDirection;
 
@@ -101,15 +105,12 @@ public class Flightmanager : MonoBehaviour
 		}
 		else
 		{
-			plane = properties.MeshInstance;
-		}
-		
-		rb.velocity = transform.forward * velocity;
+			plane = properties.meshInstance.transform;
+		}		
 
 		//Force z position to 0
 		Vector3 pos = transform.position;
 		pos.z = 0f;
 		transform.position = pos;
-
 	}
 }

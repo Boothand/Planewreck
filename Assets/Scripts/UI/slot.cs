@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class slot : MonoBehaviour, IDropHandler {
+public class Slot : MonoBehaviour, IDropHandler
+{
 	public GameObject item
 	{
 		get
@@ -15,8 +16,7 @@ public class slot : MonoBehaviour, IDropHandler {
 			return null;
 		}
 	}
-
-	#region IDropHandler implementation
+	
 	public void OnDrop(PointerEventData eventData)
 	{
 		if (!item)
@@ -25,7 +25,4 @@ public class slot : MonoBehaviour, IDropHandler {
 			SetupPlayers.itemBeingDragged.transform.SetParent(transform);
 		}
 	}
-
-	#endregion
-
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class RopeVictim : PhysicsObject
+public class WreckingBall : PhysicsObject
 {
 	public bool colliding { get; private set; }
 
@@ -10,6 +10,7 @@ public class RopeVictim : PhysicsObject
 	new void Update()
 	{
 		base.Update();
+
 		colliding = false;
 	}
 

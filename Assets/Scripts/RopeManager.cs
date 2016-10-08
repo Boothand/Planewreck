@@ -65,7 +65,6 @@ public class RopeManager : MonoBehaviour
 		if (distanceToTarget > ropeLength)
 		{
 			ropeObject.AddVelocity(dirToTarget * (distanceToTarget - ropeLength) * someForce);
-			print(ropeObject.getVelocity);
 		}
 
 		Vector3 clampedSpeed = Vector3.ClampMagnitude(ropeObject.getVelocity, elasticity);
