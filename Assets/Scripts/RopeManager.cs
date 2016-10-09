@@ -21,11 +21,17 @@ public class RopeManager : MonoBehaviour
 	[SerializeField]
 	protected float elasticity = 1f;
 
+	[SerializeField]
+	float inheritedVelocity = 0f;
+
 	protected float distanceToTarget;
 	protected bool isConnected = true;
 
 	Vector3 velocity;
 	Vector3 lastPos;
+
+	[SerializeField]
+	bool debug = false;
 
 	protected void Start()
 	{
@@ -67,30 +73,32 @@ public class RopeManager : MonoBehaviour
 
 		lastPos = transform.position;
 
-		Debug.DrawRay(ropeObject.transform.position, ropeObject.getVelocity * 3f, Color.red);
+		if (debug)
+		{
+			Debug.DrawRay(ropeObject.transform.position, ropeObject.getVelocity * 3f, Color.red);
+		}
 
 		if (distanceToTarget > ropeLength)
 		{
+			Vector3 dirToRope = (transform.position - ropeObject.transform.position).normalized;
 			if (distanceToTarget > ropeLength + elasticity)
 			{
-				Vector3 dirToRope = transform.position - ropeObject.transform.position;
-				Vector3 reflectionSurface = Quaternion.Euler(0f, 0f, 90f) * dirToRope;
-
 				Vector3 outerCirclePoint = transform.position - dirToTarget * (ropeLength + elasticity);
 				ropeObject.transform.position = outerCirclePoint;
 
-				float objectSpeed = ropeObject.getVelocity.magnitude;
 				float distanceFromMiddleX = transform.position.x - ropeObject.transform.position.x;
 				Vector3 bounceSurface = Quaternion.Euler(0f, 0f, 90f) * dirToTarget * Mathf.Sign(distanceFromMiddleX);
 				Vector3 bounceVelocity = Vector3.Reflect(dirToTarget, bounceSurface).normalized;
 
-				ropeObject.SetVelocity(-bounceSurface * objectSpeed);
-				//ropeObject.SetVelocity(dirToRope.normalized * ropeObject.getVelocity.magnitude);
+				ropeObject.AddVelocity(bounceVelocity * Mathf.Abs(distanceFromMiddleX) * Time.deltaTime);
+
+				ropeObject.SetVelocity(velocity * inheritedVelocity + ropeObject.getVelocity * (1f - Time.deltaTime));
+
 			}
+			
+			ropeObject.AddVelocity(dirToRope * Time.deltaTime);
 		}
 
-		//Vector3 clampedSpeed = Vector3.ClampMagnitude(ropeObject.getVelocity, elasticity);
-		//ropeObject.SetVelocity(clampedSpeed);
 	}
 
 	protected void Update()
