@@ -3,14 +3,13 @@
 [RequireComponent(typeof(LineRenderer))]
 public class RopeManager : MonoBehaviour
 {
+	protected LineRenderer lineRend;
+
 	[SerializeField]
 	protected int ropeSegments = 2;
 
 	[SerializeField]
 	protected PhysicsObject ropeObject;
-	protected bool isConnected = true;
-
-	protected float distanceToTarget;
 
 	[SerializeField]
 	[Range(0f, 2f)]
@@ -22,7 +21,11 @@ public class RopeManager : MonoBehaviour
 	[SerializeField]
 	protected float elasticity = 1f;
 
-	protected LineRenderer lineRend;
+	protected float distanceToTarget;
+	protected bool isConnected = true;
+
+	Vector3 velocity;
+	Vector3 lastPos;
 
 	protected void Start()
 	{
@@ -58,17 +61,36 @@ public class RopeManager : MonoBehaviour
 
 	void UpdateRopeObject()
 	{
-		float someForce = 0.008f;
-
 		Vector3 dirToTarget = (transform.position - ropeObject.transform.position).normalized;
+
+		velocity = transform.position - lastPos;
+
+		lastPos = transform.position;
+
+		Debug.DrawRay(ropeObject.transform.position, ropeObject.getVelocity * 3f, Color.red);
 
 		if (distanceToTarget > ropeLength)
 		{
-			ropeObject.AddVelocity(dirToTarget * (distanceToTarget - ropeLength) * someForce);
+			if (distanceToTarget > ropeLength + elasticity)
+			{
+				Vector3 dirToRope = transform.position - ropeObject.transform.position;
+				Vector3 reflectionSurface = Quaternion.Euler(0f, 0f, 90f) * dirToRope;
+
+				Vector3 outerCirclePoint = transform.position - dirToTarget * (ropeLength + elasticity);
+				ropeObject.transform.position = outerCirclePoint;
+
+				float objectSpeed = ropeObject.getVelocity.magnitude;
+				float distanceFromMiddleX = transform.position.x - ropeObject.transform.position.x;
+				Vector3 bounceSurface = Quaternion.Euler(0f, 0f, 90f) * dirToTarget * Mathf.Sign(distanceFromMiddleX);
+				Vector3 bounceVelocity = Vector3.Reflect(dirToTarget, bounceSurface).normalized;
+
+				ropeObject.SetVelocity(-bounceSurface * objectSpeed);
+				//ropeObject.SetVelocity(dirToRope.normalized * ropeObject.getVelocity.magnitude);
+			}
 		}
 
-		Vector3 clampedSpeed = Vector3.ClampMagnitude(ropeObject.getVelocity, elasticity);
-		ropeObject.SetVelocity(clampedSpeed);
+		//Vector3 clampedSpeed = Vector3.ClampMagnitude(ropeObject.getVelocity, elasticity);
+		//ropeObject.SetVelocity(clampedSpeed);
 	}
 
 	protected void Update()
