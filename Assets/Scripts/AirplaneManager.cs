@@ -24,6 +24,16 @@ public class AirplaneManager : MonoBehaviour
 	[SerializeField]
 	Transform smasher;
 
+	//public Transform getSmasher
+	//{
+	//	get { return smasher; }
+	//}
+
+	public Transform getSmasher()
+	{
+		return smasher;
+	}
+
 	Vector3 startPosition;
 
 	Vector3 smasherStartOffset;
@@ -76,7 +86,7 @@ public class AirplaneManager : MonoBehaviour
 			facing *= -1f;
 		if (facingCenter)
 			facing *= -1f;
-		
+
 		transform.LookAt(transform.position + facing, Vector3.up);
 
 		meshInstance.transform.position = transform.position;
@@ -123,10 +133,10 @@ public class AirplaneManager : MonoBehaviour
 	void SetColor()
 	{
 		if (color != Color.white)
-		foreach (Transform child in meshInstance.transform)
-		{
-			child.GetComponent<Renderer>().material.color = color;
-		}
+			foreach (Transform child in meshInstance.transform)
+			{
+				child.GetComponent<Renderer>().material.color = color;
+			}
 	}
 
 	public void EnableInput(bool truth = true)
@@ -167,5 +177,5 @@ public class AirplaneManager : MonoBehaviour
 			}
 		}
 	}
-	
+
 }
