@@ -1,0 +1,45 @@
+power ups
+
+- Change ball size
+- Change ball gravity
+- Reverse ball gravity direction
+- Change ball can hurt self
+- Change ball damage (fire)
+- Ball fire trail
+- Release ball (and catch it)
+- Unpredicteble ball movement
+- Aditional balls
+
+- Change plane speed
+- Change plane turning speed
+- Change plane size
+- Shield following plane
+	- Half circle
+	- Full circle
+- Plane fire trail
+
+- Change game speed (slow motion)
+- Change game speed in a zone
+
+- Lazer rope
+- Change Rope lenght
+- Change Rope elasticity
+- Catch player (throw away ball / small ball) and "control" them.
+
+- Imortal
+-
+
+- Release mines
+
+- Reverse controls
+- Teleport forward
+- Change place with player
+
+
+how to get it?
+
+- Smash ball
+- Area of effect
+- Crate (inside building?)
+
+colour on building represents what effect are hidden inside
