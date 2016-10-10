@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
 	private bool givingPraiseToRoundWinner;
 	private bool roundWasDraw;
 
+	bool roundHasStarted;
+
 	private int roundCountDownTime = 3;
 	private int requiredWins = 5;
 	private int alivePlayers;
@@ -282,8 +284,12 @@ public class GameManager : MonoBehaviour
 					break;
 				case GameState.Round:
 
-					player.EnableInput();
-					player.EnableFlight();
+					if (!roundHasStarted)
+					{
+						player.EnableInput();
+						player.EnableFlight();
+						roundHasStarted = true;
+					}
 
 					if (alivePlayers == 1 && !player.health.Dead)
 					{
