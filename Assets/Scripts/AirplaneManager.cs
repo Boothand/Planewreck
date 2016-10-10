@@ -8,9 +8,8 @@ public class AirplaneManager : MonoBehaviour
 	public Flightmanager flight { get; private set; }
 	public HealthManager health { get; private set; }
 	InputManager input;
-
-	[SerializeField]
-	Color color = Color.white;
+	
+	public Color color = Color.white;
 
 	public string playerName { get; private set; }
 
@@ -22,17 +21,7 @@ public class AirplaneManager : MonoBehaviour
 	public GameObject meshInstance { get; private set; }
 
 	[SerializeField]
-	Transform smasher;
-
-	//public Transform getSmasher
-	//{
-	//	get { return smasher; }
-	//}
-
-	public Transform getSmasher()
-	{
-		return smasher;
-	}
+	WreckingBall smasher;
 
 	Vector3 startPosition;
 
@@ -63,7 +52,12 @@ public class AirplaneManager : MonoBehaviour
 
 		SetInputType(inputType);
 
-		SetColor();
+		SetColor(color);
+	}
+
+	public WreckingBall GetSmasher()
+	{
+		return smasher;
 	}
 
 	public void ResetPosition()
@@ -111,7 +105,7 @@ public class AirplaneManager : MonoBehaviour
 	public void ResetSmasherPosition()
 	{
 		//smasher.position = smasherStartOffset;
-		smasher.position = meshInstance.transform.position + smasherStartOffset;
+		smasher.transform.position = meshInstance.transform.position + smasherStartOffset;
 	}
 
 	public void Revive()
@@ -127,16 +121,15 @@ public class AirplaneManager : MonoBehaviour
 
 		health.EnableComponents();
 
-		SetColor();
+		SetColor(color);
 	}
 
-	void SetColor()
+	public void SetColor(Color newColor)
 	{
-		if (color != Color.white)
-			foreach (Transform child in meshInstance.transform)
-			{
-				child.GetComponent<Renderer>().material.color = color;
-			}
+		foreach (Transform child in meshInstance.transform)
+		{
+			child.GetComponent<Renderer>().material.color = newColor;
+		}
 	}
 
 	public void EnableInput(bool truth = true)
