@@ -1,24 +1,37 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class PowerBase : MonoBehaviour
 {
-	protected bool hasDuration = true;
-	protected float duration = 5f;
-
 	protected AirplaneManager airplane;
 
+	[SerializeField]
+	protected bool hasDuration = true;
+
+	[SerializeField]
+	protected float duration = 5f;
+
+	protected virtual void Awake()
+	{
+		airplane = transform.parent.GetComponent<AirplaneManager>();
+	}
 
 	protected virtual void Start()
 	{
-		airplane = GetComponent<AirplaneManager>();
 		StartCoroutine(PowerRoutine());
-	}
+	}	
 
-	protected virtual void Update()
+	IEnumerator PowerRoutine()
 	{
+		OnPowerStart();
 
+		if (hasDuration)
+			yield return new WaitForSeconds(duration);
+
+		OnPowerEnd();
+
+		yield return StartCoroutine(EndPowerRoutine());
+		Destroy(gameObject);
 	}
 
 	protected virtual void OnPowerStart()
@@ -28,19 +41,24 @@ public abstract class PowerBase : MonoBehaviour
 
 	protected virtual void OnPowerEnd()
 	{
-		
+
 	}
 
-	protected virtual IEnumerator PowerRoutine()
+	protected virtual IEnumerator EndPowerRoutine()
 	{
-		OnPowerStart();
-		if (hasDuration)
-			yield return new WaitForSeconds(duration);
-
-		OnPowerEnd();
-		Stop();
-		Destroy(this);
+		yield return null;
 	}
 
-	public abstract void Stop();
+	public void Stop()
+	{
+		StopAllCoroutines();
+		StartCoroutine(EndApruptlyRoutine());
+	}
+
+	IEnumerator EndApruptlyRoutine()
+	{
+		yield return StartCoroutine(EndPowerRoutine());
+
+		Destroy(gameObject);
+	}
 }
