@@ -10,9 +10,8 @@ public class PhysicsObject : MonoBehaviour
 
 	[SerializeField]
 	protected bool ignoreCollisions;
-
-	[SerializeField]
-	float gravity = -9.81f;
+	
+	public Vector3 gravity = new Vector3(0f, -9.81f, 0f);
 
 	[SerializeField]
 	float maxVelocity = 1f;
@@ -44,10 +43,9 @@ public class PhysicsObject : MonoBehaviour
 	{
 		if (!ignoreGravity)
 		{
-			if (velocity.y > -maxVelocity)
-			{
-				velocity.y += gravity / 100f * Time.deltaTime;
-			}
+			velocity += gravity / 100f * Time.deltaTime;
+
+			velocity = Vector3.ClampMagnitude(velocity, maxVelocity);
 		}
 
 		transform.position += velocity;
