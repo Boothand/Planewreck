@@ -15,10 +15,11 @@ public class Crate : MonoBehaviour
 			return;
 		}
 
-		taken = true;
 
 		if (col.GetComponent<AirplaneManager>())
 		{
+			taken = true;
+
 			AirplaneManager airplane = col.GetComponent<AirplaneManager>();
 			GameObject instance = Instantiate(power.gameObject, airplane.transform);
 
