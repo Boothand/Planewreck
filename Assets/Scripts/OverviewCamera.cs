@@ -3,25 +3,25 @@ using System.Collections;
 
 public class OverviewCamera : MonoBehaviour
 {
-	private CameraTarget[] cameraTargets;
-	private Camera cam;
+	CameraTarget[] cameraTargets;
+	Camera cam;
 
 	[SerializeField]
-	private float lerpSpeed = 4f;
+	float lerpSpeed = 4f;
 
 	[SerializeField]
-	private float maxDistance = -100f;
+	float maxDistance = -100f;
 
 	[SerializeField]
-	private float minDistance = -30f;
+	float minDistance = -30f;
 
 	[SerializeField]
-	private float minHeight = -32;
+	float minHeight = -32;
 
-	private int trackableObjectCount;
-	private Vector3 startPos;
+	int trackableObjectCount;
+	Vector3 startPos;
 
-	private bool trackObjects;
+	bool trackObjects = true;
 
 	public Vector3 StartPosition { get { return startPos; } }
 
