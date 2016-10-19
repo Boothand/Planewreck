@@ -113,9 +113,4 @@ public class HealthManager : MonoBehaviour
 		if (col.transform.GetComponent<DestructibleBuilding>())
 			Die(Vector3.zero);
 	}
-
-	void Update()
-	{
-		
-	}
 }
